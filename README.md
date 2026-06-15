@@ -25,6 +25,8 @@ IDEIAS
   independente da prioridade
 - Em listar colaboradores, poder mostrar as atividades e quantidade destas de cada um, se estao concluidas 
   e o nivel de prioridade delas. (Isso equivale aos requisitos 2 e 7 juntos)
+- Usar 'remover_enter' sempre ao ler uma string
+- Mostrar opção de filtrar atividades por prioridade e/ou etapa (requisito bonus 11) dentro do requisito 4
 
 ---------------------------------------------------------------------------------------
 SOBRE MODULARIZAÇÃO
@@ -56,5 +58,4 @@ automaticas dos dados indicados por asterisco anteriormente. Talvez não todos, 
 
 Existem alguns exemplos de funcoes que poderiam ser implementadas na parte "leitura e verificacao de dados especificos" no codigo, 
 escritos como comentário
-- Usar 'remover_enter' sempre ao ler uma string
-- Mostrar opção de filtrar atividades por prioridade e/ou etapa (requisito bonus 11) dentro do requisito 4
+
