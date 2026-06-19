@@ -99,9 +99,9 @@ int main(){
 	printf("6. Buscar atividade.\n");
 	printf("7. Mostrar Estatisticas Gerais.\n");
 	printf("8. Exibir Ranking de Colaboradores.\n");
-	printf("9. Excluir atividade.\n");
+/*	printf("9. Excluir atividade.\n");
 	printf("10. Editar atividade.\n");
-	printf("11. Trocar colaborador responsavel por atividade.\n");
+	printf("11. Trocar colaborador responsavel por atividade.\n"); */
 	printf("0. Sair.\n\n");
 
     do{
