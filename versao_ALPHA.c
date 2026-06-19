@@ -5,7 +5,6 @@
 LISTA DE AFAZERES (que ironia)
 - Criar funcoes de leitura e verificacao
 - Fazer as funcionalidades solicitadas pelo projeto
-- Requisito 1: Pensar numa forma de acrescentar tarefas ao mesmo tempo que as realoca por prioridade
 */
 
 typedef struct {
