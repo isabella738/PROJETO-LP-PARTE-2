@@ -3,7 +3,7 @@
 
 /*
 LISTA DE AFAZERES (que ironia)
-- Criar funções de leitura e verificação
+- Criar funÃ§Ãµes de leitura e verificacao
 - Fazer as funcionalidades solicitadas pelo projeto
 - Requisito 1: Pensar numa forma de acrescentar tarefas ao mesmo tempo que as realoca por prioridade
 */
@@ -12,30 +12,28 @@ typedef struct {
     char nome[100];
     //char descricao[200]; deixa isso aqui pra depois, muito trabalho...
     int prioridade; // 1, 2 ou 3, prioridade crescente
-    int status;//1, 2 ou 3, a fazer, em andamento, concluido
+    int status; //1, 2 ou 3, a fazer, em andamento, concluido
 }itens;
 
-typedef struct{
+typedef struct {
     char nome[100];
-    char codigo[6];//5 digitos
-    int pendentes;//isso aqui pode ajudar ao fazer o ranking!
-    int lim;//total de tarefas de um colaborador
+    char codigo[6]; //5 digitos
+    int pendentes; //isso aqui pode ajudar ao fazer o ranking!
+    int lim; //total de tarefas de um colaborador
     itens tarefa[100];
 }colaborador;
 
 colaborador pessoa[100]; int p=0;
 
-
-//
 //FUNCOES DE USO GERAL
-int encerrar(){//return 1=parar processo atual; return 0=continuar
+int encerrar(){ //return 1=parar processo atual; return 0=continuar
 	printf("Continuar? (S/N) ");
 	char c = getchar();
 	if(c=='n' || c=='N')return 1;
 	return 0;
 }
 
-void minusculas(char string[]){//transforma todas as letras da string passada no parametro em minusculas
+void minusculas(char string[]){ //transforma todas as letras da string passada no parametro em minusculas
 	int i;
 	for(i=0; string[i]!='\0'; i++){
 		if(string[i]>='A' && string[i]<='Z')string[i]+='a'-'A';
@@ -47,8 +45,6 @@ void remover_enter(char t[]){
     if(t[x-1]=='\n' && x>0)t[x-1]='\0';
 }
 
-
-//
 //FUNCOES DE VERIFICACAO
 int string_vazia(char string[]){
 	int i;
@@ -57,11 +53,9 @@ int string_vazia(char string[]){
 	return 1;
 }
 
-
-//
 //FUNCOES DE LEITURA DE DADOS NAO-ESPECIFICOS
 int ler_string(char string[], int tam){//substitui o fgets
-    //lê string, remove o enter, verifica o tamanho e se é vazio
+    //le string, remove o enter, verifica o tamanho e se eh vazio
     int i;
     fgets(string, tam+10, stdin); remover_enter(string);
     
@@ -73,104 +67,114 @@ int ler_string(char string[], int tam){//substitui o fgets
     return 0;
 }
 
-int ler_int(){//substitui o scanf para inteiros
-    //lê e verifica se a entrada do usuario é mesmo um numero
+int ler_int(){ //substitui o scanf para inteiros
+    //le e verifica se a entrada do usuario eh mesmo um numero
     int n;
     while(scanf("%d", &n)==0){
         printf("Por favor, insira um numero valido: ");
-        while(getchar()!='\n');//limpar buffer
+        while(getchar()!='\n'); //limpa o buffer
     }
     getchar();
     return n;
 }
 
-//
 //FUNCOES DE LEITURA DE DADOS ESPECIFICOS
 //exemplos:
-//int lerString_tarefa() --> contém: verificacao para nome de tarefa já usado
-//int lerString_codigo() --> contém: verificacao para codigo de colaborador já usado
+//int lerString_tarefa() --> contem: verificacao para nome de tarefa ja usado
+//int lerString_codigo() --> contem: verificacao para codigo de colaborador ja usado
 //int lerInt_ prioridade()
 //etc etc
 
 int main(){
-
-    /*
-        Inserir Menu Aqui
-    */
+    
+    printf("+---------------------------------------------------------+\n");
+    printf("|  SISTEMA DE ORGANIZACAO E ACOMPANHAMENTO DE ATIVIDADES  |\n");
+    printf("+---------------------------------------------------------+");
+    printf("\n\n");
+	printf("1. Cadastrar colaborador.\n");
+	printf("2. Listar colaboradore(s).\n");
+	printf("3. Cadastrar atividade.\n");
+	printf("4. Listar atividade(s).\n");
+	printf("5. Movimentar atividade.\n");
+	printf("6. Buscar atividade.\n");
+	printf("7. Mostrar Estatisticas Gerais.\n");
+	printf("8. Exibir Ranking de Colaboradores.\n");
+	printf("9. Excluir atividade.\n");
+	printf("10. Editar atividade.\n");
+	printf("11. Trocar colaborador responsavel por atividade.\n");
+	printf("0. Sair.\n\n");
 
     do{
-        printf("Escolha um numero: ");
+        printf("Escolha uma opcao: ");
         int escolha = ler_int();
-
         if(!escolha)break;
         else if(escolha==1){
-            printf(":: Cadastro de Colaborador ::\n");
+			printf("\n+-------------------------------------------------------+\n");
+            printf("|               CADASTRO DE COLABORADOR                 |\n");
+            printf("+-------------------------------------------------------+\n");
             do{
                 char nome[100];
 
-                printf("Nome do colaborador: ");
+                printf("\nNome do colaborador: ");
                 while(ler_string(nome, 100)); strcpy(pessoa[p].nome, nome);
-                //vai solicitar nova entrada até que a funcao retorne 0, ou seja, não tenha erros
+                //vai solicitar nova entrada ate que a funcao retorne 0, ou seja, nao tenha erros
 
                 if(encerrar())break;
             }while(1);
-
-
         }
         else if(escolha==2){
-            printf(":: Listar Colaboradores ::\n");
-
-
-
+            printf("\n+-------------------------------------------------------+\n");
+            printf("|                LISTAR COLABORADORE(S)                 |\n");
+            printf("+-------------------------------------------------------+\n");
         }
         else if(escolha==3){
-            printf(":: Cadastrar nova Atividade ::\n");
-
-
-
+            printf("\n+-------------------------------------------------------+\n");
+            printf("|                  CADASTRAR ATIVIDADE                  |\n");
+            printf("+-------------------------------------------------------+\n");
         }
         else if(escolha==4){
-            printf(":: Listar Atividades ::\n");
-
-
-
+            printf("\n+-------------------------------------------------------+\n");
+            printf("|                  LISTAR ATIVIDADE(S)                  |\n");
+            printf("+-------------------------------------------------------+\n");
         }
         else if(escolha==5){
-            printf(":: Movimentar Atividades ::\n");
-
-
-
+            printf("\n+-------------------------------------------------------+\n");
+            printf("|                  MOVIMENTAR ATIVIDADE                 |\n");
+            printf("+-------------------------------------------------------+\n");
         }
         else if(escolha==6){
-            printf(":: Buscar Atividades ::\n");
-
-
-
+            printf("\n+-------------------------------------------------------+\n");
+            printf("|                   BUSCAR ATIVIDADE                    |\n");
+            printf("+-------------------------------------------------------+\n");
         }
         else if(escolha==7){
-            printf(":: Mostrar Estatisticas Gerais ::\n");
-
-
-
+            printf("\n+-------------------------------------------------------+\n");
+            printf("|               MOSTRAR ESTATISTICAS GERAIS             |\n");
+            printf("+-------------------------------------------------------+\n");
         }
         else if(escolha==8){
-            printf(":: Ranking de Colaboradores ::\n");
-
-
-
+            printf("\n+-------------------------------------------------------+\n");
+            printf("|               RANKING DE COLABORADORES                |\n");
+            printf("+-------------------------------------------------------+\n");
         }
         /*
         else if(escolha==9){
-            printf(":: Excluir Atividade ::\n");
+            printf("\n+-------------------------------------------------------+\n");
+            printf("|                    EXCLUIR ATIVIDADE                  |\n");
+            printf("+-------------------------------------------------------+\n");
         }
         else if(escolha==10){
-            printf(":: Editar Atividade ::\n");
+            printf("\n+-------------------------------------------------------+\n");
+            printf("|                    EDITAR ATIVIDADE                   |\n");
+            printf("+-------------------------------------------------------+\n");
         }
         else if(escolha==11){
-            printf(":: Trocar colaborador responsavel por uma atividade ::\n");
+            printf("\n+-------------------------------------------------------+\n");
+            printf("|      TROCAR COLABORADOR RESPONSAVEL POR ATIVIDADE     |\n");
+            printf("+-------------------------------------------------------+\n");
         }
         */
-        else printf("Numero valido.\n");
+        else printf("\nNumero invalido.\n");
 
     }while(1);
 }
