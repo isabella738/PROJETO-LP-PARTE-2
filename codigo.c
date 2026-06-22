@@ -19,14 +19,12 @@ Atualizações da nova versão:
 - Update da listagem de colaboradores: agora é possível selecionar um especifico e listar todas as suas tarefas.
 - Update da funcao ler_string: retorna 2 se for string vazia, então o usuario pode desistir de uma ação somente apertando
     enter. Nova sintaxe:
-- Verificacao de numero de colaboradores: se não existirem colaboradores cadastrados, todas as opcoes, menos as de 0 a 2, 
-    ficam bloqueadas.
-- Na funcao encerrar(), getchar foi substituido por scanf, que já previne lixo no buffer e varios getchar no main
-
     int s
     while((s=ler_string(string))==1);
     if(s==2)break;
-
+- Verificacao de numero de colaboradores: se não existirem colaboradores cadastrados, todas as opcoes, menos as de 0 a 2, 
+    ficam bloqueadas.
+- Na funcao encerrar(), getchar foi substituido por scanf, que já previne lixo no buffer e varios getchar no main
 - Se o usuario quiser desistir de uma ação no meio do processo, ele pode digitar 0, no caso de entradas numericas, ou
     enter, no caso de entradas de caractere. Criei essa mecânica, mas não tenho certeza se apliquei para todas as entradas.
     É bom conferir.
