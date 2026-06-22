@@ -10,7 +10,7 @@ LISTA DE AFAZERES (que ironia)
 typedef struct {
     char nome[100];
     //char descricao[200]; deixa isso aqui pra depois, muito trabalho...
-    int prioridade; // 1, 2 ou 3, prioridade crescente
+    char prioridade[3]; // 1, 2 ou 3, prioridade crescente
     int status; //1, 2 ou 3, a fazer, em andamento, concluido
 }itens;
 
@@ -216,9 +216,11 @@ int main(){
             printf("+-------------------------------------------------------+\n");
          
          
-          do{  
+          do{ 
+          
             char nome_tarefa[100];
             char nome[100];
+            int prioridade;
             
             getchar();
             printf("Nome do colaborador: ");
@@ -226,10 +228,24 @@ int main(){
            
             printf("Tarefa: ");
             while(ler_string(nome_tarefa, 100)); strcpy(pessoa[t].tarefa, nome_tarefa);
-            t++;
             
-            if(encerrar())break;
-         
+           
+            printf("Prioridade da tarefa:\n");
+            printf("1 - Baixa\n");
+            printf("2 - Media\n");
+            printf("3 - Alta\n");
+            printf("Qual das opcoes?: ");
+            prioridade = ler_int();
+              
+              
+               if(prioridade > 3 || prioridade  < 1){
+                printf("Opcao invalida\n");
+                if(encerrar())break;
+                continue;
+               }
+           
+           if(encerrar())break;
+           printf("\n");
           }while(1);
       
         }
@@ -237,42 +253,50 @@ int main(){
             printf("\n+-------------------------------------------------------+\n");
             printf("|                  LISTAR ATIVIDADE(S)                  |\n");
             printf("+-------------------------------------------------------+\n");
+            printf("Em desenvolvimento\n");
         }
         else if(escolha==5){
             printf("\n+-------------------------------------------------------+\n");
             printf("|                  MOVIMENTAR ATIVIDADE(S)                 |\n");
             printf("+-------------------------------------------------------+\n");
+            printf("Em desenvolvimento\n");
         }
         else if(escolha==6){
             printf("\n+-------------------------------------------------------+\n");
             printf("|                   BUSCAR ATIVIDADE(S)                    |\n");
             printf("+-------------------------------------------------------+\n");
+            printf("Em desenvolvimento\n");
         }
         else if(escolha==7){
             printf("\n+-------------------------------------------------------+\n");
             printf("|               MOSTRAR ESTATISTICAS GERAIS             |\n");
             printf("+-------------------------------------------------------+\n");
+            printf("Em desenvolvimento\n");
         }
         else if(escolha==8){
             printf("\n+-------------------------------------------------------+\n");
             printf("|               RANKING DE COLABORADORES                |\n");
-            printf("+-------------------------------------------------------+\n");
+            printf("+------------------------------------------------------+\n");
+            printf("Em desenvolvimento\n");
         }
         
         else if(escolha==9){
             printf("\n+-------------------------------------------------------+\n");
             printf("|                    EXCLUIR ATIVIDADE                  |\n");
             printf("+-------------------------------------------------------+\n");
+            printf("Em desenvolvimento\n");
         }
         else if(escolha==10){
             printf("\n+-------------------------------------------------------+\n");
             printf("|                    EDITAR ATIVIDADE                   |\n");
             printf("+-------------------------------------------------------+\n");
+            printf("Em desenvolvimento\n");
         }
         else if(escolha==11){
             printf("\n+-------------------------------------------------------+\n");
             printf("|      TROCAR COLABORADOR RESPONSAVEL POR ATIVIDADE     |\n");
             printf("+-------------------------------------------------------+\n");
+            printf("Em desenvolvimento\n");
         }
         
         else printf("\nNumero invalido.\n");
