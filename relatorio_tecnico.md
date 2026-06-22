@@ -30,6 +30,7 @@ Resultado esperado: 1, 1, 1, 1, 2, 2, 2, 3, 3, 3
 
 Este teste simula a funcao 'reorganizacao por status' no codigo principal
 
+
 Teste 2:
 
 Funcionalidade: interromper ou não um processo em andamento
