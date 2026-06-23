@@ -294,7 +294,7 @@ int main(){
                 else {
                     int j;
                     for(j = 0; j < p; j++){
-                        printf("%d. %s - %s (%d tarefas cadastradas)\n", j+1, pessoa[j].codigo, pessoa[j].nome, pessoa[j].lim);
+                        printf("%d. %s - %s (%d tarefas, %d pendentes)\n", j+1, pessoa[j].codigo, pessoa[j].nome, pessoa[j].lim, pessoa[j].lim-pessoa[j].concluidas);
                     }
 
                     printf("\nInsira um numero para ver mais detalhes, ou 0 para sair: ");
