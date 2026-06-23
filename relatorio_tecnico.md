@@ -50,7 +50,7 @@ Dados de entrada: 2, 3, 1, 1, 2, 3, 1, 3, 1, 2
 
 Resultado esperado: 1, 1, 1, 1, 2, 2, 2, 3, 3, 3
 
-Este teste simula a funcao 'reorganizacao por status' no codigo principal
+Este teste simula a funcao 'reorganizacao por status' no codigo principal.
 
 
 Teste 2:
@@ -61,7 +61,18 @@ Dados de entrada: n; s; N; w
 
 Resultados esperados: "Programa encerrado"; "Continuar programa"; "Programa encerrado"; "Continuar programa"
 
-Este teste simula a funcao 'encerrar()' no codigo principal
+Este teste simula a funcao 'encerrar()' no codigo principal.
+
+
+Teste 3:
+
+Funcionalidade: imprimir os 5 maiores valores de um vetor
+
+Dados de entrada: 8, 3, 2, 10, 1, 7, 2, 0, 2, 3
+
+Resultados esperados: 10, 8, 7, 3, 3
+
+Este teste simula o requisito 'ranking' no codigo principal.
 
 ### 6. Dificuldades Encontradas
 
