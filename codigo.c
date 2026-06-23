@@ -322,7 +322,7 @@ int main(){
             printf("Codigo do colaborador: ");
             while((x=procurar_colaborador())==-1)
             if(x==-2)break;
-            printf("Colaborador selecionado: %s\n", pessoa[x].nome);
+            printf("\nColaborador selecionado: %s\n", pessoa[x].nome);
            
             //Nome da tarefa
             printf("\nTarefa: ");
@@ -330,7 +330,7 @@ int main(){
             if(s==2)break;
 
             //Prioridade da tarefa
-            printf("Prioridade da tarefa:\n");
+            printf("\nPrioridade da tarefa:\n");
             printf("1 - Alta\n");
             printf("2 - Media\n");
             printf("3 - Baixa\n");
@@ -381,7 +381,7 @@ int main(){
                                             contador, pessoa[i].tarefa[j].nome, pessoa[i].nome, pessoa[i].tarefa[j].prioridade);
                                     }
                     }
-                    else if(opcao==2){//etapa
+                    else if(opcao2==2){//etapa
                         int i, j, k, contador=0;
                         for(k=1; k<=3; k++)//cada etapa
                             for(i=0; i<p; i++)//cada pessoa
@@ -402,6 +402,13 @@ int main(){
                     int k = ler_int(0, 3);
                     if(!k)break;
 
+					printf("\nExibindo todas as tarefas com prioridade: ");
+					switch(k){
+						case 1: printf("Alta:\n"); break;
+						case 2: printf("Media:\n"); break;
+						case 3: printf("Baixa:\n"); break;
+					}
+					
                     int i, j, contador=0;
                     for(i=0; i<p; i++){//cada pessoa
                         for(j=0; j<pessoa[i].lim; j++){//cada tarefa
@@ -418,6 +425,13 @@ int main(){
                     int k = ler_int(0, 3);
                     if(!k)break;
 
+					printf("\nExibindo todas as tarefas na etapa: ");
+					switch(k){
+						case 1: printf("A Fazer:\n"); break;
+						case 2: printf("Em Andamento:\n"); break;
+						case 3: printf("Concluido:\n"); break;
+					}
+					
                     int i, j, contador=0;
                     for(i=0; i<p; i++){//cada pessoa
                         for(j=0; j<pessoa[i].lim; j++){//cada tarefa
