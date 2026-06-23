@@ -31,6 +31,28 @@ int encerrar(){ //return 1=parar processo atual; return 0=continuar
 	return 0;
 }
 
+void ranking(int v[]){
+    //Proposta: imprimir, em ordem, os 5 maiores valores de um vetor
+    int usados[5], u=0;
+    for(int ranking=1; ranking<=5; ranking++){
+        int maior=0, posicao=0;
+        for(int i=0; i<10; i++){//para cada elemento do vetor
+
+            if(v[i]>maior){
+                int parar=0;
+                for(int j=0; j<u; j++){
+                    if(i==usados[j]){parar=1; break;}
+                }
+                if(!parar){
+                    maior = v[i]; posicao=i;
+                }
+            }
+
+        }
+        usados[u]=posicao; u++;
+        printf("%d. '%d'\n", ranking+1, v[posicao]);
+    }
+}
 
 
 int main(){
@@ -51,6 +73,15 @@ int main(){
         int x = encerrar();
         if(x)printf("Programa encerrado\n");
         else printf("Continuar programa\n");
+    }
+    if(n==3){
+        int v[10];
+        printf("Numeros aleatorios (10):\n");
+        for(int i=0; i<10; i++){
+            printf("%d: ", i+1); scanf("%d", &v[i]);
+        }
+        printf("\n");
+        ranking(v);
     }
 
     return 0;
