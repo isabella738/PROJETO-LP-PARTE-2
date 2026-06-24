@@ -3,17 +3,17 @@
 #include <stdlib.h>
 
 /*
-Atualizações da nova versao:
+Atualizacoes da nova versao:
 - Criacao das funcoes 'listar_prioridade' e 'listar_etapa', que poupa switches em excesso no main
 - Permanencia de dados
-- Compactação de funcionalidades: em vez de 1 para editar uma taraefa e outra para excluir, por exemplo, 
+- Compactacao de funcionalidades: em vez de 1 para editar uma taraefa e outra para excluir, por exemplo, 
     tudo isso fica dentro de editar. O mesmo vale para colaborador
 
 ANOTACOES
 - Consertar bugs
-- É válido fazer mais testes. Fiz somente alguns, provavelmente é preciso fazer ajustes
-- Melhorar formatação
-- Acho que a funcao lerString_tarefa não está funcionando muito bem para a verificação de tarefas duplicadas
+- Eh valido fazer mais testes. Fiz somente alguns, provavelmente eh preciso fazer ajustes
+- Melhorar formatacao -> mexi em alguns detalhes
+- Acho que a funcao lerString_tarefa nao esta funcionando muito bem para a verificacao de tarefas duplicadas
 - Tem bug em Listar Atividades
 */
 
@@ -70,22 +70,22 @@ void exibir_menu(){
 	printf("10. Editar atividade.\n");
     printf("11. Editar informacoes de colaborador.\n");
 	printf("0. Sair.\n\n");
-    printf("Obs: digite 0 ou deixe o campo vazio para cancelar qualquer acao em andamento.\n\n");
+    printf("Obs: digite 0 ou deixe o campo vazio para cancelar qualquer acao em andamento.\n");
 }
 
-void reorganizacao_por_status(int x){//recebe a posição do colaborador no array
+void reorganizacao_por_status(int x){//recebe a posicao do colaborador no array
     int i, limite=0, status;
-    //"limite" é a primeira posicao do vetor que não foi organizada
+    //"limite" Ã© a primeira posicao do vetor que nao foi organizada
 
-    /*Lógica: 
+    /*Logica: 
 
-    1. Selecionar 1 status de cada vez, em ordem crescente, mantendo as tarefas não iniciadas no topo
+    1. Selecionar 1 status de cada vez, em ordem crescente, mantendo as tarefas nao iniciadas no topo
     2. Percorrer o array de tarefas, por uma tarefa que esteja no status definido anteriormente
-    3. Se corresponder, troca a tarefa na posição 'i' pela posição 'limite', e aumenta o valor de 'limite'
-        mantendo, assim, a tarefa que foi permutada fixa na nova posição. Depois, o contador 'i' volta para a nova
-        posição 'limite' e reinicia a busca
-    4. Se corresponder, mas 'limite' for igual a 'i', então significa que a tarefa já está na posição certa e somente é
-        necessário aumentar o valor 'limite'
+    3. Se corresponder, troca a tarefa na posiÃ§Ã£o 'i' pela posicao 'limite', e aumenta o valor de 'limite'
+        mantendo, assim, a tarefa que foi permutada fixa na nova posiÃ§Ã£o. Depois, o contador 'i' volta para a nova
+        posiÃ§Ã£o 'limite' e reinicia a busca
+    4. Se corresponder, mas 'limite' for igual a 'i', entÃ£o significa que a tarefa ja esta na posicao certa e somente eh
+        necessario aumentar o valor 'limite'
     */
     for(status=1; status<=3; status++){
         for(i=0; i<pessoa[x].lim; i++){
@@ -144,7 +144,8 @@ int string_vazia(char string[]){
 
 int codigo_existe(char codigo[]){//retorna a posicao do colaborador no array, ou -1 se nao existir
     int x = -1;
-    for(int i=0; i<p; i++){
+    int i = 0;
+    for(i=0; i<p; i++){
         if(strcmp(pessoa[i].codigo, codigo)==0){
             x = i; break;
         }
@@ -196,11 +197,12 @@ int lerString_codigo(char codigo[]){//retorna 2 para string vazia, 1 para erro
     if(s==2)return 2;
     
     if(strlen(codigo)<5){
-        printf("O numero deve conter 5 digitos. Tente novamente\n");
+        printf("O cosdigo deve conter 5 digitos. Tente novamente.\n");
         return 1;
     }
     //Verifica se sao apenas numeros
-    for(int i=0; i<5; i++){
+    int i = 0;
+    for(i=0; i<5; i++){
         if(codigo[i] < '0' || codigo[i] > '9'){
             printf("O codigo deve conter apenas numeros. Tente novamente.\n");
             return 1;
@@ -232,14 +234,14 @@ int lerString_tarefa(char tarefa[]){
     return 0;
 }
 
-int procurar_colaborador(){//lê o codigo e retorna a posição do colaborador no array; -1: pessoa nao encontrada; -2:string vazia
+int procurar_colaborador(){//la o codigo e retorna a posicao do colaborador no array; -1: pessoa nao encontrada; -2:string vazia
     int x = -1, s;
     char codigo[6];
     while((s=lerString_codigo(codigo))==1);
     if(s==2)return -2;
 
     x = codigo_existe(codigo);
-    if(x==-1)printf("Pessoa não encontrada. Tente novamente.\n");
+    if(x==-1)printf("Pessoa nao encontrada. Tente novamente.\n");
     return x;
 }
 
@@ -280,8 +282,8 @@ int main(){
     exibir_menu();
 
     do{
-        printf("\n+=========================================================\n");
-        printf("Escolha uma opcao do menu, ou 0 para encerrar o programa\n> ");
+        printf("\n=========================================================\n");
+        printf("Escolha uma opcao do menu, ou 0 para encerrar o programa.\n> ");
         int escolha = ler_int(0, 11);
 
         if(escolha>2 && p==0){
@@ -290,7 +292,7 @@ int main(){
         }
 
         if(!escolha){
-           printf("Saindo....");
+           printf("Saindo...");
            break;
         }
         else if(escolha==1)exibir_menu();
@@ -368,14 +370,14 @@ int main(){
 
             //Prioridade da tarefa
             printf("\nPrioridade da tarefa:\n");
-            printf("1 - Alta\n");
-            printf("2 - Media\n");
-            printf("3 - Baixa\n");
+            printf("1. Alta\n");
+            printf("2. Media\n");
+            printf("3. Baixa\n");
             printf("Qual das opcoes?: ");
             int prioridade = ler_int(0, 3);
             if(!prioridade)break;
 
-            //Adição da tarefa e inicialização de variaveis
+            //Adicao da tarefa e inicializacao de variaveis
             int t = pessoa[x].lim;
             strcpy(pessoa[x].tarefa[t].nome, nome_tarefa);
             pessoa[x].tarefa[t].prioridade = prioridade;
@@ -416,6 +418,7 @@ int main(){
                                         contador++;
                                         printf("%d - %s (%s); Prioridade: ", contador, pessoa[i].tarefa[j].nome, pessoa[i].nome);
                                         listar_prioridade(k);
+                                        printf("\n");
                                     }
                     }
                     else if(opcao2==2){//etapa
@@ -509,7 +512,7 @@ int main(){
                 }while(1);
                 if(!t)break;
 
-                //Ação
+                //Acao
                 t--;
                 pessoa[x].tarefa[t].status++;
                 status = pessoa[x].tarefa[t].status;
@@ -544,7 +547,7 @@ int main(){
                         if(strstr(copia, busca)!=NULL){
                             printf("- %s (Atribuida a: %s)\n", pessoa[i].tarefa[j].nome, pessoa[i].nome);
                             printf("Etapa: "); listar_etapa(pessoa[i].tarefa[j].status);
-                            printf("Prioridade: "); listar_prioridade(pessoa[i].tarefa[j].status);
+                            printf("Prioridade: "); listar_prioridade(pessoa[i].tarefa[j].prioridade);
                             printf("\n");
                             contador++;
                         }
@@ -563,7 +566,7 @@ int main(){
             int tarefas_total=0, status1=0, status2=0, status3=0, p1=0, p2=0, p3=0;
             int i, j;
 
-            for(i=0; i<p; i++){//alguns dados são calculados na hora
+            for(i=0; i<p; i++){//alguns dados sao calculados na hora
                 tarefas_total+=pessoa[i].lim;
 
                 for(j=0; j<pessoa[i].lim; j++){
