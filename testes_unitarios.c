@@ -54,10 +54,40 @@ void ranking(int v[]){
     }
 }
 
+void teste_validacao_codigo(){
+    //Proposta: verificar se os digitos sao apenas numeros e se o codigo tem 5 digitos
+    char codigo[15];
+    int valido = 1;
+    
+    printf("Digite um codigo de um colaborador (5 digitos): ");
+    scanf("%s", codigo);
+    
+    int tamanho_real = strlen(codigo); //verifica o tamanho
+    int i = 0;
+    
+    for(i = 0; i < tamanho_real; i++) {
+        if(codigo[i] < '0' || codigo[i] > '9'){ // consulta a tabela ASCII
+            valido = 0;
+            break; //se achar uma letra, encerra
+        }
+    }
+    
+    if (!valido){
+        printf("Erro: O codigo deve conter apenas numeros. Tente novamente.\n");
+    }else if (tamanho_real != 5){
+        printf("Erro: O codigo contem apenas numeros, mas tambem deve ter 5 digitos.\n");
+    }else{
+        printf("Codigo \"%s\" valido para o sistema.\n", codigo);
+    }
+}
 
 int main(){
-
-    printf("teste: ");
+	//menu de testes
+    printf("Teste 1: Reorganizacao crescente\n");
+    printf("Teste 2: Encerrar\n");
+    printf("Teste 3: Ranking\n");
+    printf("Teste 1: Reorganizao crescente\n");
+    printf("\n> ");
     int n; scanf("%d", &n);
 
     if(n==1){
@@ -82,6 +112,10 @@ int main(){
         }
         printf("\n");
         ranking(v);
+    }
+
+	if(n==4){
+        teste_validacao_codigo();
     }
 
     return 0;
