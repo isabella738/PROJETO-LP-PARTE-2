@@ -4,7 +4,7 @@ ANOTACOES
 - É válido fazer mais testes. Fiz somente alguns, provavelmente é preciso fazer ajustes
 - Melhorar formatação
 - Acho que a funcao lerString_tarefa não está funcionando muito bem para a verificação de tarefas duplicadas
-
+P.S.: atualizei testes 24/06
 
 ---
 REQUISITOS
