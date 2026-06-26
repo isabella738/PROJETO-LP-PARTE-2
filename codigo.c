@@ -459,8 +459,8 @@ int main(){
             pessoa[x].tarefa[t].prioridade = prioridade;
             pessoa[x].tarefa[t].status = 1;
             pessoa[x].lim++;
-			reorganizacao_por_status(x);
             printf("\nA tarefa %s foi cadastrada para o colaborador %s com sucesso.\n", pessoa[x].tarefa[t].nome, pessoa[x].nome);
+			reorganizacao_por_status(x);
 
             if(encerrar())break;
           }while(1);
