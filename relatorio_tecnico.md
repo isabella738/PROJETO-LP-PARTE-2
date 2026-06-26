@@ -7,6 +7,8 @@ Discente(s): Gabriel Moura Rocha, Giselly Jahel Dias e Isabella Sousa Porto Ferr
 Docente: Luenne Nailam Souza Nascimento  
 Data (última atualização): 26-06-2026   
 
+*Obs: disponibilizamos o codigo fonte dos testes unitarios no main do repositorio, só pra caso quiser dar uma olhada
+
 ### Relatório
 
 ### 1. Descrição Geral do Sistema
@@ -44,7 +46,6 @@ Cada tarefa contém:
 3. int status (1-a fazer, 2-em andamento, 3- concluida).
   
 ### 5. Testes Unitários
-*Obs: o codigo fonte desses testes está no main sob o nome 'testes_unitarios', por curiosidade...
 
 Teste 1:
 
@@ -78,8 +79,19 @@ Resultados esperados: 10, 8, 7, 3, 3
 
 Este teste simula o requisito 'ranking' no codigo principal.
 
+--------
+Teste 4:
+
+Funcionalidade: Validar o formato de uma entrada do tipo 'codigo de colaborador'
+
+Dados de entrada: qwert; 99; 00001
+
+Resultados esperados: 'O codigo deve conter apenas numeros'; 'O codigo contem apenas numeros, mas tambem deve ter 5 digitos.'; 'Codigo "00001" valido para o sistema.'
+
+Este teste simula a função 'lerString_codigo' no codigo principal.
+
 -------
-Teste 4: 
+Teste 5: 
 
 Funcionalidade: tirar espaços em excesso de uma string
 
@@ -87,6 +99,7 @@ Dado de entrada: ----tirar--espaços----em---excesso------ (hifens representam e
 
 Resultado esperado: 'tirar-espaços-em-excesso'
 
+Este teste simula a função 'tirar_espacos' no codigo principal
 
 ### 6. Dificuldades Encontradas
 
