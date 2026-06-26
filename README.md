@@ -3,23 +3,4 @@
 ANOTACOES
 - É válido fazer mais testes. Fiz somente alguns, provavelmente é preciso fazer ajustes;
 - Melhorar formatação;
-- Acho que a funcao lerString_tarefa não está funcionando muito bem para a verificação de tarefas duplicadas;  
-P.S.: atualizei testes 24/06
-
----
-REQUISITOS
-1. Cadastrar colaboradores
-2. Listar colaboradores
-3. Cadastrar atividades
-4. Listar atividades
-5. Movimentar atividades (1->2->3)
-6. Buscar atividade
-7. Quantidade de atividades por colaborador
-8. Estatisticas gerais
-9. Ranking
-10. Excluir e editar atividades
-11. Filtrar por prioridade e/ou etapa
-12. Atribuir tarefa a outro colaborador
-
-outros...
-13. Excluir colaborador
+- Já tem 5 testes unitários. Não me lembro quantos são necessários no mínimo, mas taí, dá pra add mais
