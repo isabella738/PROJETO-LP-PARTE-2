@@ -11,10 +11,10 @@ Atualizacoes:
 	e evitar que espacos em excesso contem como caracteres antes da checagem do numero de caracteres
 - MUDANCA EM LER_INT: ag a funcao armazena como string, e depois converte pra inteiro. Isso evita getchars aleatorios e imprevisiveis
 - Add descricao
+- Add 'exibir_descricao' que recebe a posicao do colaborador e da tarefa nos respectivos vetores
 	
 ANOTACOES
-- Nao da pra exibir descricao em 'listar atividades' pois aqui a listagem não é linear conforme o vetor, e seria mais chato de fazer, mas não impossível.
-	Fica como implementacao futura
+- 'exibir_descricao' imprime \n mesmo quando a string é vazia, não sei pq
 - Consertar bugs
 - Eh valido fazer mais testes. Fiz somente alguns, provavelmente eh preciso fazer ajustes
 - Melhorar formatacao -> mexi em alguns detalhes
@@ -40,11 +40,30 @@ colaborador pessoa[100];
 int p=0; //Contador de colaboradores
 
 //
+//FUNCOES DE VERIFICACAO
+int string_vazia(char string[]){//1: é vazia
+	int i;
+	for(i=0; strlen(string); i++)if(string[i]!=' ' && string[i]!='\0')return 0;
+	return 1;
+}
+
+int posicao_codigo(char codigo[]){//retorna a posicao do colaborador no array, ou -1 se nao existir
+    int x = -1;
+    int i = 0;
+    for(i=0; i<p; i++){
+        if(strcmp(pessoa[i].codigo, codigo)==0){
+            x = i; break;
+        }
+    }
+    return x;
+}
+
+//
 //FUNCOES DE USO GERAL
 int encerrar(){ //return 1=parar processo atual; return 0=continuar
 	printf("Continuar? (S/N): ");
 	char c;
-    scanf(" %c", &c);
+    scanf(" %c", &c); getchar();
 	if(c=='n' || c=='N')return 1;
 	return 0;
 }
@@ -154,23 +173,10 @@ void exibir_tarefas(int k){//recebe a posicao da pessoa no vetor e imprime todas
     }
 }
 
-//
-//FUNCOES DE VERIFICACAO
-int string_vazia(char string[]){//1: é vazia
-	int i;
-	for(i=0; string[i]!='\0'; i++)if(string[i]!=' ' && string[i]!='\n')return 0;
-	return 1;
-}
-
-int posicao_codigo(char codigo[]){//retorna a posicao do colaborador no array, ou -1 se nao existir
-    int x = -1;
-    int i = 0;
-    for(i=0; i<p; i++){
-        if(strcmp(pessoa[i].codigo, codigo)==0){
-            x = i; break;
-        }
-    }
-    return x;
+void exibir_descricao(int x, int y){
+    int a;
+    if((a=string_vazia(pessoa[x].tarefa[y].descricao)))printf("Esta tarefa nao possui descricao.\n");
+    else printf("%s\n", pessoa[x].tarefa[y].descricao);
 }
 
 //
@@ -323,13 +329,16 @@ void salvar_dados(colaborador *c){
 //
 int main(){
     carregar_dados(pessoa);
-    
+
     printf("+---------------------------------------------------------+\n");
     printf("|  SISTEMA DE ORGANIZACAO E ACOMPANHAMENTO DE ATIVIDADES  |\n");
     printf("+---------------------------------------------------------+\n");
     exibir_menu();
 
     do{
+
+        int x = string_vazia(pessoa[0].tarefa[0].descricao); printf("%d###\n", x);
+
         printf("\n=========================================================\n");
         printf("Escolha uma opcao do menu (1), ou 0 para encerrar o programa.\n> ");
         int escolha = ler_int(0, 11);
@@ -405,8 +414,7 @@ int main(){
                     int l = ler_int(0, pessoa[k].lim);
                     if(!l)break; 
                     l--;
-                    if(string_vazia(pessoa[k].tarefa[l].descricao))printf("Esta tarefa nao tem descricao.\n");
-                    else printf("\n%s\n", pessoa[k].tarefa[l].descricao);
+                    exibir_descricao(k, l);
                 }
 				
                 if(encerrar())break;
@@ -450,7 +458,6 @@ int main(){
             //Descricao
             printf("Adicione uma descricao, ou deixe em branco para pular esta etapa.\n> ");
             while((s=ler_string(desc, 500))==1);
-            if(s==2)break;
 
             //Adicao da tarefa e inicializacao de variaveis
             int t = pessoa[x].lim;
@@ -476,6 +483,8 @@ int main(){
                 printf("2. Filtrar por prioridade\n");
                 printf("3. Filtrar por etapa\n\n> ");
                 int opcao = ler_int(0, 3);
+                int user[100*p], item[100*p], tam=0;
+
                 if(!opcao)break;
 
                 if(opcao==1){//exibir tudo
@@ -492,8 +501,17 @@ int main(){
                                         contador++;
                                         printf("%d - %s (%s); Prioridade: ", contador, pessoa[i].tarefa[j].nome, pessoa[i].nome);
                                         listar_prioridade(k);
+
+                                        user[tam]=i; item[tam]=j; 
+                                        tam++;
+
                                         printf("\n");
                                     }
+                        
+                        printf("Escolha uma tarefa para ver a descricao.\n> ");
+                        int x = ler_int(0, tam); 
+                        if(!x)break; x--;
+                        exibir_descricao(user[x], item[x]);
                     }
                     else if(opcao2==2){//etapa
                         int i, j, k, contador=0;
@@ -504,7 +522,17 @@ int main(){
                                         contador++;
                                         printf("%d - %s (%s)\nEtapa: ", contador, pessoa[i].tarefa[j].nome, pessoa[i].nome);
                                         listar_etapa(k);
+
+                                        user[tam]=i; item[tam]=j; 
+                                        tam++;
+
+                                        printf("\n");
                                     }
+
+                        printf("Escolha uma tarefa para ver a descricao.\n> ");
+                        int x = ler_int(0, tam);
+                        if(!x)break; x--;
+                        exibir_descricao(user[x], item[x]);
                     }
                 }
                 else if(opcao==2){//filtrar por prioridade
@@ -520,9 +548,15 @@ int main(){
                             if(pessoa[i].tarefa[j].prioridade==k){
                                 contador++;
                                 printf("%d. %s (%s)\n", contador, pessoa[i].tarefa[j].nome, pessoa[i].nome);
+
+                                user[tam]=i; item[tam]=j; 
+                                tam++;
                             }
-                        
-                    printf("\nExistem %d tarefas com prioridade ", contador); listar_prioridade(k);
+
+                    printf("Escolha uma tarefa para ver a descricao.\n> ");
+                    int x = ler_int(0, tam);
+                    if(!x)break; x--;
+                    exibir_descricao(user[x], item[x]);
                 }
                 else if(opcao==3){//filtrar por etapa
                     printf("\nSelecione a etapa (numero 1-3): ");
@@ -537,9 +571,15 @@ int main(){
                             if(pessoa[i].tarefa[j].status==k){
                                 contador++;
                                 printf("%d. %s (%s)\n", contador, pessoa[i].tarefa[j].nome, pessoa[i].nome);
-                            }
 
-                    printf("\nExistem %d nesta etapa ", contador); listar_etapa(k);
+                                user[tam]=i; item[tam]=j; 
+                                tam++;
+                            }
+                    
+                    printf("Escolha uma tarefa para ver a descricao.\n> ");
+                    int x = ler_int(0, tam);
+                    if(!x)break; x--;
+                    exibir_descricao(user[x], item[x]);
                 }
                 printf("\n");
 				
@@ -621,7 +661,7 @@ int main(){
                             printf("- %s (Atribuida a: %s (%s)\n", pessoa[i].tarefa[j].nome, pessoa[i].nome, pessoa[i].codigo);
                             printf("Etapa: "); listar_etapa(pessoa[i].tarefa[j].status);
                             printf("Prioridade: "); listar_prioridade(pessoa[i].tarefa[j].prioridade);
-                            printf("> %s\n\n", pessoa[i].tarefa[j].descricao);
+                            exibir_descricao(i, j);
                             contador++;
                         }
                     }
@@ -722,9 +762,7 @@ int main(){
                 printf("%s (%s)\n", pessoa[x].tarefa[t].nome, pessoa[x].nome);
                 printf("Etapa atual: "); listar_etapa(pessoa[x].tarefa[t].status);
                 printf("Prioridade: "); listar_prioridade(pessoa[x].tarefa[t].prioridade);
-                printf("Descricao: ");
-                if(string_vazia(pessoa[x].tarefa[t].descricao))printf("nao existe descricao para esta tarefa.\n");
-                else printf("%s\n", pessoa[x].tarefa[t].descricao);
+                printf("Descricao: "); exibir_descricao(x, t);
 
 				//Listagem de opcoes de edicao
                 printf("\nEscolha uma opcao para editar:\n");
