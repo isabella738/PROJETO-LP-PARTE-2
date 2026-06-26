@@ -52,7 +52,7 @@ Resultado esperado: 1, 1, 1, 1, 2, 2, 2, 3, 3, 3
 
 Este teste simula a funcao 'reorganizacao por status' no codigo principal.
 
-
+-------
 Teste 2:
 
 Funcionalidade: interromper ou não um processo em andamento
@@ -63,7 +63,7 @@ Resultados esperados: "Programa encerrado"; "Continuar programa"; "Programa ence
 
 Este teste simula a funcao 'encerrar()' no codigo principal.
 
-
+-------
 Teste 3:
 
 Funcionalidade: imprimir os 5 maiores valores de um vetor
@@ -73,6 +73,16 @@ Dados de entrada: 8, 3, 2, 10, 1, 7, 2, 0, 2, 3
 Resultados esperados: 10, 8, 7, 3, 3
 
 Este teste simula o requisito 'ranking' no codigo principal.
+
+-------
+Teste 4: 
+
+Funcionalidade: tirar espaços em excesso de uma string
+
+Dado de entrada: ----tirar--espaços----em---excesso------ (hifens representam espaços)
+
+Resultado esperado: 'tirar-espaços-em-excesso'
+
 
 ### 6. Dificuldades Encontradas
 
