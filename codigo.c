@@ -3,11 +3,8 @@
 #include <stdlib.h>
 
 /*
-Atualizacoes da nova versao:
-- Criacao das funcoes 'listar_prioridade' e 'listar_etapa', que poupa switches em excesso no main
-- Permanencia de dados
-- Compactacao de funcionalidades: em vez de 1 para editar uma taraefa e outra para excluir, por exemplo, 
-    tudo isso fica dentro de editar. O mesmo vale para colaborador
+Atualizacoes:
+- Add verificacao de limites maximos (maximos de colaboradores, maximo de tarefas) em 2, 4 e subfuncao 3 em 10
 
 ANOTACOES
 - Consertar bugs
@@ -297,6 +294,11 @@ int main(){
         }
         else if(escolha==1)exibir_menu();
         else if(escolha==2){
+			if(p==100){
+				printf("A capacidade maxima de perfis de colaboradores foi alcancada (100).\nExclua algum perfil para cadastrar outro.\n");
+				continue;
+			}
+
 			printf("\n+-------------------------------------------------------+\n");
             printf("|               CADASTRO DE COLABORADOR(ES)                 |\n");
             printf("+-------------------------------------------------------+\n");
@@ -362,6 +364,11 @@ int main(){
             while((x=procurar_colaborador())==-1);
             if(x==-2)break;
             printf("\nColaborador selecionado: %s\n", pessoa[x].nome);
+
+			if(pessoa[x].lim==100){
+				printf("Este colaborador ja alcancou o limite maximo de atividades cadastradas em seu nome.\nExclua alguma para adicionar outras.\n);
+				continue;
+			}
            
             //Nome da tarefa
             printf("\nNova Tarefa: ");
@@ -679,8 +686,14 @@ int main(){
                 else if(opcao==3){//trocar colaborador responsavel
                     int x2;
                     printf("\nInforme o codigo do novo colaborador responsavel: ");
-                    while((x2=procurar_colaborador())==-1);
-                    if(x2==-2)break;
+
+					do{
+                    	while((x2=procurar_colaborador())==-1);
+						if(pessoa[x2].lim==100 && x2!=-2)
+							printf("Este colaborador ja alcancou o limite maximo de atividades cadastradas em seu nome. Tente novamente.\n");
+                    	if(x2!=-1)break;
+					}
+					if(x2==-2)break;
 
                     printf("O colaborador %s passara a ser responsavel pela tarefa selecionada.\n", pessoa[x2].nome);
                     if(encerrar())break;
