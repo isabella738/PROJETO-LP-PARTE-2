@@ -6,14 +6,14 @@
 Atualizacoes:
 - Add verificacao de limites maximos (maximos de colaboradores, maximo de tarefas) em 2, 4 e subfuncao 3 em 10
 - Add + comentarios
-
+- Strings com espacos em excesso agora tambem são tratadas
+- Em ler_string, o fgets lê uma string com o dobro do tamanho (200), numa tentativa (nao muito elaborada) de conter lixo no buffer, 
+	e evitar que espacos em excesso contem como caracteres antes da checagem de numero de caracteres
+	
 ANOTACOES
 - Consertar bugs
-- TIRAR ESPACOS EM EXECESSO!!
 - Eh valido fazer mais testes. Fiz somente alguns, provavelmente eh preciso fazer ajustes
 - Melhorar formatacao -> mexi em alguns detalhes
-- Acho que a funcao lerString_tarefa nao esta funcionando muito bem para a verificacao de tarefas duplicadas
-- Tem bug em Listar Atividades
 */
 
 typedef struct {
@@ -53,6 +53,24 @@ void minusculas(char string[]){ //transforma todas as letras da string passada n
 void remover_enter(char t[]){
     int x = strlen(t);
     if(t[x-1]=='\n' && x>0)t[x-1]='\0';
+}
+
+void tirar_espacos(char string[]){
+    int meio=0;//deixa um espaço se a cadeia de espacos estiver no meio
+
+    for(int i=0; string[i]!='\0'; i++){
+        int a=i, espacos=0;
+		
+        if(string[i]!=' ')meio=1;//significa que a cadeia de espacos nao esta mais no inicio da string
+		
+        while(string[a]==' ' && string[a]!='\0'){
+            espacos++; a++;
+            if(string[a+1]=='\0')meio=0;//significa que a cadeia de espacos esta no fim da string
+        }
+        if(meio)espacos--;//quantidade de espacos que serao tirados
+		
+        if(espacos>0) {for(int j=i; string[j]!='\0'; j++)string[j]=string[j+espacos]; i--;}
+    }
 }
 
 void exibir_menu(){
@@ -159,18 +177,17 @@ int ler_string(char string[], int tam){//substitui o fgets; retorna 1 para erro,
 	o while se repete até ler_string se tornar "falsa" (0) 
 	*/
 
-    char teste[tam+10];
+    char teste[tam+100];
     int i;
-    fgets(teste, tam+10, stdin);
+    fgets(teste, tam+100, stdin);
     if(string_vazia(teste))return 2;
 
-    remover_enter(teste);
+    remover_enter(teste); tirar_espacos(teste);
     if(strlen(teste)>tam){
         printf("Estouro do limite de caracteres. Tente novamente.\n"); return 1;
     }
     
     strcpy(string, teste);
-    
     return 0;
 }
 
