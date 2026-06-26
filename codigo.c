@@ -207,11 +207,11 @@ int ler_int(int a, int b){ //substitui o scanf para inteiros; n>=a && n<=b; reto
 
     do{
         char n[100];
-        int i, num=0, erro=0;
+        int i, num=0, erro=0, s;
 
-        fgets(n, 100, stdin); remover_enter(n);
-
-        if(string_vazia(n)){printf("Escolha um numero valido.\n"); continue;}
+        while((s=ler_string(n))==1);
+		
+        if(s==2){printf("Escolha um numero valido.\n"); continue;}
 
         for(i=0; n[i]!='\0'; i++)
             if(n[i]<'0' || n[i]>'9'){
