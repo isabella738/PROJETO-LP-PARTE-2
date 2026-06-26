@@ -43,7 +43,7 @@ int p=0; //Contador de colaboradores
 //FUNCOES DE VERIFICACAO
 int string_vazia(char string[]){//1: é vazia
 	int i;
-	for(i=0; strlen(string); i++)if(string[i]!=' ' && string[i]!='\0')return 0;
+	for(i=0; i<=strlen(string); i++)if(string[i]!=' ' && string[i]!='\0')return 0;
 	return 1;
 }
 
