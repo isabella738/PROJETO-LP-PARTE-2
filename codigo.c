@@ -5,9 +5,11 @@
 /*
 Atualizacoes:
 - Add verificacao de limites maximos (maximos de colaboradores, maximo de tarefas) em 2, 4 e subfuncao 3 em 10
+- Add + comentarios
 
 ANOTACOES
 - Consertar bugs
+- TIRAR ESPACOS EM EXECESSO!!
 - Eh valido fazer mais testes. Fiz somente alguns, provavelmente eh preciso fazer ajustes
 - Melhorar formatacao -> mexi em alguns detalhes
 - Acho que a funcao lerString_tarefa nao esta funcionando muito bem para a verificacao de tarefas duplicadas
@@ -60,7 +62,7 @@ void exibir_menu(){
 	printf("3. Listar colaboradore(s).\n");
 	printf("4. Cadastrar atividade.\n");
 	printf("5. Listar atividade(s).\n");
-	printf("6. Movimentar atividade.\n");
+	printf("6. ALterar etapa de atividade.\n");
 	printf("7. Buscar atividade.\n");
 	printf("8. Mostrar Estatisticas Gerais.\n");
 	printf("9. Exibir Ranking de Colaboradores.\n");
@@ -72,15 +74,14 @@ void exibir_menu(){
 
 void reorganizacao_por_status(int x){//recebe a posicao do colaborador no array
     int i, limite=0, status;
-    //"limite" Ã© a primeira posicao do vetor que nao foi organizada
-
+    //"limite" eh a primeira posicao do vetor que nao foi organizada
     /*Logica: 
 
     1. Selecionar 1 status de cada vez, em ordem crescente, mantendo as tarefas nao iniciadas no topo
     2. Percorrer o array de tarefas, por uma tarefa que esteja no status definido anteriormente
-    3. Se corresponder, troca a tarefa na posiÃ§Ã£o 'i' pela posicao 'limite', e aumenta o valor de 'limite'
-        mantendo, assim, a tarefa que foi permutada fixa na nova posiÃ§Ã£o. Depois, o contador 'i' volta para a nova
-        posiÃ§Ã£o 'limite' e reinicia a busca
+    3. Se corresponder, troca a tarefa na posicao 'i' pela posicao 'limite', e aumenta o valor de 'limite'
+        mantendo, assim, a tarefa que foi permutada fixa na nova posicao. Depois, o contador 'i' volta para a nova
+        posicao 'limite' e reinicia a busca
     4. Se corresponder, mas 'limite' for igual a 'i', entÃ£o significa que a tarefa ja esta na posicao certa e somente eh
         necessario aumentar o valor 'limite'
     */
@@ -98,8 +99,6 @@ void reorganizacao_por_status(int x){//recebe a posicao do colaborador no array
                     limite++;
                 }
             }
-        }
-    }
 }
 
 void listar_prioridade(int x){
@@ -154,6 +153,11 @@ int codigo_existe(char codigo[]){//retorna a posicao do colaborador no array, ou
 //FUNCOES DE LEITURA DE DADOS NAO-ESPECIFICOS
 int ler_string(char string[], int tam){//substitui o fgets; retorna 1 para erro, 2 p/ string vazia
     //le string, remove o enter, verifica o tamanho e se eh vazio
+	
+	/*Exemplo de uso:
+		while(ler_string(frase));
+	o while se repete até ler_string se tornar "falsa" (0) 
+	*/
 
     char teste[tam+10];
     int i;
@@ -172,6 +176,11 @@ int ler_string(char string[], int tam){//substitui o fgets; retorna 1 para erro,
 
 int ler_int(int a, int b){ //substitui o scanf para inteiros; n>=a && n<=b; retorna o valor n
     //le e verifica se a entrada do usuario eh mesmo um numero e se esta nas limitacoes especificadas
+
+	/*Exemplo de uso:
+		int x = ler_int(1, 10)
+		x e um numero do intervalo [1, 10]
+	*/
     int n;
     do{
         while(scanf("%d", &n)==0){
@@ -192,11 +201,13 @@ int lerString_codigo(char codigo[]){//retorna 2 para string vazia, 1 para erro
     int s;
     while((s = ler_string(codigo, 5))==1);
     if(s==2)return 2;
-    
+
+	//Codigo de 5 digitos
     if(strlen(codigo)<5){
         printf("O cosdigo deve conter 5 digitos. Tente novamente.\n");
         return 1;
     }
+	
     //Verifica se sao apenas numeros
     int i = 0;
     for(i=0; i<5; i++){
@@ -213,9 +224,10 @@ int lerString_tarefa(char tarefa[]){
     int s, i, j;
     while((s=ler_string(tarefa, 100))==1);
     if(s==2)return 2;
+
+	//Verifica se ja nao existe uma tarefa com este nome
     char busca[100]; 
     strcpy(busca, tarefa); minusculas(busca);
-
     for(i=0; i<p; i++){
         for(j=0; j<pessoa[i].lim; j++){
             char copia[100];
@@ -231,7 +243,7 @@ int lerString_tarefa(char tarefa[]){
     return 0;
 }
 
-int procurar_colaborador(){//la o codigo e retorna a posicao do colaborador no array; -1: pessoa nao encontrada; -2:string vazia
+int procurar_colaborador(){//le o codigo e retorna a posicao do colaborador no array; -1: pessoa nao encontrada; -2:string vazia
     int x = -1, s;
     char codigo[6];
     while((s=lerString_codigo(codigo))==1);
@@ -280,7 +292,7 @@ int main(){
 
     do{
         printf("\n=========================================================\n");
-        printf("Escolha uma opcao do menu, ou 0 para encerrar o programa.\n> ");
+        printf("Escolha uma opcao do menu (1), ou 0 para encerrar o programa.\n> ");
         int escolha = ler_int(0, 11);
 
         if(escolha>2 && p==0){
@@ -293,7 +305,7 @@ int main(){
            break;
         }
         else if(escolha==1)exibir_menu();
-        else if(escolha==2){
+        else if(escolha==2){//Cadastro de colaboradores
 			if(p==100){
 				printf("A capacidade maxima de perfis de colaboradores foi alcancada (100).\nExclua algum perfil para cadastrar outro.\n");
 				continue;
@@ -304,15 +316,16 @@ int main(){
             printf("+-------------------------------------------------------+\n");
             // Pede o nome e o codigo de cada colaborador 
             do{
-                char nome[100];
-                char codigo[6];
+                char nome[100], codigo[6];
                 int s;
-                
                 getchar();
+
+				//Ler nome
                 printf("\nNome do colaborador: ");
                 while((s=ler_string(nome, 100))==1);
                 if(s==2)break;
-               
+
+				//Ler Codigo
                 do{
                     printf("Codigo identificador: ");
                     while((s=lerString_codigo(codigo))==1); if(s==2)break;
@@ -321,15 +334,15 @@ int main(){
                 }while(1);
                 if(s==2)break;
 
+				//Criacao do colaborador e inicializacao de variaveis
                 strcpy(pessoa[p].codigo, codigo); strcpy(pessoa[p].nome, nome);
                 pessoa[p].lim=0; pessoa[p].concluidas=0;
                 p++;
                 
-                if(encerrar())break;//vai solicitar nova entrada ate que a funcao retorne 0, ou seja, nao tenha erros.
-           
+                if(encerrar())break;
             }while(1);
         }
-        else if(escolha==3){
+        else if(escolha==3){//Listagem de colaboradores
             printf("\n+-------------------------------------------------------+\n");
             printf("|                LISTA DE COLABORADOR(ES)                 |\n");
             printf("+-------------------------------------------------------+\n");
@@ -346,10 +359,11 @@ int main(){
                 k--;
                 exibir_tarefas(k);
                 printf("\n");
+				
                 if(encerrar())break;
             }while(1);
         }
-        else if(escolha==4){
+        else if(escolha==4){//Cadastro de atividades
             printf("\n+-------------------------------------------------------+\n");
             printf("|                  CADASTRAR ATIVIDADE(S)                  |\n");
             printf("+-------------------------------------------------------+\n");
@@ -365,6 +379,7 @@ int main(){
             if(x==-2)break;
             printf("\nColaborador selecionado: %s\n", pessoa[x].nome);
 
+			//Verificacao do estouro do limite de tarefas
 			if(pessoa[x].lim==100){
 				printf("Este colaborador ja alcancou o limite maximo de atividades cadastradas em seu nome.\nExclua alguma para adicionar outras.\n);
 				continue;
@@ -380,7 +395,7 @@ int main(){
             printf("1. Alta\n");
             printf("2. Media\n");
             printf("3. Baixa\n");
-            printf("Qual das opcoes?: ");
+            printf("Qual das opcoes?\n> ");
             int prioridade = ler_int(0, 3);
             if(!prioridade)break;
 
@@ -390,19 +405,18 @@ int main(){
             pessoa[x].tarefa[t].prioridade = prioridade;
             pessoa[x].tarefa[t].status = 1;
             pessoa[x].lim++;
+			reorganizacao_por_status(x);
             printf("\nA tarefa %s foi cadastrada para o colaborador %s com sucesso.\n", pessoa[x].tarefa[t].nome, pessoa[x].nome);
-            reorganizacao_por_status(x);
 
             if(encerrar())break;
           }while(1);
       
         }
-        else if(escolha==5){
+        else if(escolha==5){//Listagem de atividades
             printf("\n+-------------------------------------------------------+\n");
             printf("|                  LISTAR ATIVIDADE(S)                  |\n");
             printf("+-------------------------------------------------------+\n");
 
-            //listar TODAS as atividades, independente do colaborador
             do{
                 printf("Escolha uma opcao de exibicao:\n");
                 printf("1. Exibir todas as atividades\n");
@@ -412,7 +426,7 @@ int main(){
                 if(!opcao)break;
 
                 if(opcao==1){//exibir tudo
-                    printf("\nOrdenar por prioridade (1) ou etapa (2)? ");
+                    printf("\nOrdenar por prioridade (1) ou etapa (2)?\n> ");
                     int opcao2 = ler_int(0, 2);
                     if(!opcao2)break;
 
@@ -454,8 +468,7 @@ int main(){
                                 contador++;
                                 printf("%d. %s (%s)\n", contador, pessoa[i].tarefa[j].nome, pessoa[i].nome);
                             }
-                        }
-                    }
+                        
                     printf("\nExistem %d tarefas com prioridade ", contador); listar_prioridade(k);
                 }
                 else if(opcao==3){//filtrar por etapa
@@ -472,26 +485,25 @@ int main(){
                                 contador++;
                                 printf("%d. %s (%s)\n", contador, pessoa[i].tarefa[j].nome, pessoa[i].nome);
                             }
-                        }
-                    }
+
                     printf("\nExistem %d nesta etapa ", contador); listar_etapa(k);
                 }
-
                 printf("\n");
-                getchar();
+				
                 if(encerrar())break;
             }while(1);
         }
-        else if(escolha==6){
+        else if(escolha==6){//Alterar etapa
             printf("\n+-------------------------------------------------------+\n");
-            printf("|                  MOVIMENTAR ATIVIDADE(S)                 |\n");
+            printf("|              ALTERAR STATUS DE ATIVIDADE(S)             |\n");
             printf("+-------------------------------------------------------+\n");
             do{
                 int i, x, status, t;
                 char codigo[6];
+				getchar();
 
                 //Identificar colaborador
-                printf("Codigo do colaborador: "); getchar();
+                printf("Codigo do colaborador: "); 
                 while((x=procurar_colaborador())==-1);
                 if(x==-2)break;
 
@@ -532,7 +544,7 @@ int main(){
                 if(encerrar())break;
             }while(1);
         }
-        else if(escolha==7){
+        else if(escolha==7){//Buscar
             printf("\n+-------------------------------------------------------+\n");
             printf("|                   BUSCAR ATIVIDADE(S)                    |\n");
             printf("+-------------------------------------------------------+\n");
@@ -541,10 +553,12 @@ int main(){
                 char busca[100];
                 int i, j, contador=0, s;
 
+				//Leitura da string busca
                 printf("Busca: "); getchar();
                 while((s=ler_string(busca, 5))==1); minusculas(busca);
                 if(s==2)break;
 
+				//Busca por todas as tarefas, de todas as pessoas
                 for(i=0; i<p; i++){//para cada pessoa
                     for(j=0; j<pessoa[i].lim; j++){//para cada tarefa
                         char copia[100];
@@ -552,7 +566,7 @@ int main(){
                         minusculas(copia);
 
                         if(strstr(copia, busca)!=NULL){
-                            printf("- %s (Atribuida a: %s)\n", pessoa[i].tarefa[j].nome, pessoa[i].nome);
+                            printf("- %s (Atribuida a: %s (%s)\n", pessoa[i].tarefa[j].nome, pessoa[i].nome, pessoa[i].codigo);
                             printf("Etapa: "); listar_etapa(pessoa[i].tarefa[j].status);
                             printf("Prioridade: "); listar_prioridade(pessoa[i].tarefa[j].prioridade);
                             printf("\n");
@@ -566,14 +580,16 @@ int main(){
                 if(encerrar())break;
             }while(1);
         }
-        else if(escolha==8){
+        else if(escolha==8){//Estatisticas Gerais
             printf("\n+-------------------------------------------------------+\n");
             printf("|               MOSTRAR ESTATISTICAS GERAIS             |\n");
             printf("+-------------------------------------------------------+\n\n");
             int tarefas_total=0, status1=0, status2=0, status3=0, p1=0, p2=0, p3=0;
             int i, j;
-
-            for(i=0; i<p; i++){//alguns dados sao calculados na hora
+			
+			//alguns dados sao calculados na hora:
+			//tarefas totais, tarefas por etapa, tarefas por prioridade, medias
+            for(i=0; i<p; i++){
                 tarefas_total+=pessoa[i].lim;
 
                 for(j=0; j<pessoa[i].lim; j++){
@@ -605,14 +621,15 @@ int main(){
             printf("Prioridade media: %d\n", p2);
             printf("Prioridade alta: %d\n\n", p1);
         }
-        else if(escolha==9){
+        else if(escolha==9){//Ranking
             printf("\n+-------------------------------------------------------+\n");
             printf("|               RANKING DE PRODUTIVIDADE                |\n");
             printf("+-------------------------------------------------------+\n");
 
             int usados[5], u=0, i, j, ranking;
 
-            for(ranking=1; ranking<=5 && ranking<=p; ranking++){
+			//Impressao do ranking
+            for(ranking=1; ranking<=5 && ranking<=p; ranking++){//para cada posicao do ranking
                 int maior=0, posicao=0;
 
                 for(i=0; i<p; i++){//para cada pessoa
@@ -632,98 +649,111 @@ int main(){
             }
 
         }
-        else if(escolha==10){
+        else if(escolha==10){//Editar atividade
             printf("\n+-------------------------------------------------------+\n");
             printf("|                    EDITAR ATIVIDADE                   |\n");
             printf("+-------------------------------------------------------+\n");
             do{
                 int x, t, opcao, i;
-                
+
+				//Leitura do codigo e exibicao das tarefas do colaborador x
                 printf("Codigo do colaborador: ");
                 while((x=procurar_colaborador())==-1);
                 if(x==-2)break;
                 exibir_tarefas(x);
 
+				//Escolha e exibicao da tarefa t
                 printf("Escolha a tarefa: ");
                 t = ler_int(0, pessoa[x].lim);
                 if(!t)break; t--;
-
                 printf("\nA seguinte tarefa foi selecionada:\n");
                 printf("%s (%s)\n", pessoa[x].tarefa[t].nome, pessoa[x].nome);
                 printf("Etapa atual: "); listar_etapa(pessoa[x].tarefa[t].status);
                 printf("Prioridade: "); listar_prioridade(pessoa[x].tarefa[t].prioridade);
 
+				//Listagem de opcoes de edicao
                 printf("\nEscolha uma opcao para editar:\n");
                 printf("1. Nome\n");
                 printf("2. Prioridade\n");
                 printf("3. Trocar Colaborador Responsavel\n");
                 printf("4. Excluir Atividade\n");
                 printf("> ");
-                opcao = ler_int(0, 2);
+                opcao = ler_int(0, 4);
                 if(!opcao)break;
 
                 if(opcao==1){//editar nome
                     int s;
                     char novo[100];
+
+					//Leitura do novo nome
                     while((s=lerString_tarefa(novo))==1);
                     if(s==2)break;
 
+					//Confirmacao
                     printf("A seguinte modificacao sera feita:\n");
                     printf("%s -> %s\n", pessoa[x].tarefa[t].nome, novo);
                     if(encerrar())break;
 
+					//Acao
                     strcpy(pessoa[x].tarefa[t].nome, novo);
                     printf("Mudanca bem-sucedida.\n");
                 }
                 else if(opcao==2){//editar prioridade
+					
+					//Leitura da nova prioridade
                     int prioridade = ler_int(0, 3);
                     if(!prioridade)break;
 
+					//Acao
                     pessoa[x].tarefa[t].prioridade = prioridade;
                     printf("Agora a tarefa '%s' tem prioridade: ", pessoa[x].tarefa[t].nome);
                     listar_prioridade(prioridade);
                 }
                 else if(opcao==3){//trocar colaborador responsavel
                     int x2;
-                    printf("\nInforme o codigo do novo colaborador responsavel: ");
 
+					//Leitura do novo colaborador
+                    printf("\nInforme o codigo do novo colaborador responsavel.\n> ");
 					do{
                     	while((x2=procurar_colaborador())==-1);
-						if(pessoa[x2].lim==100 && x2!=-2)
+						if(pessoa[x2].lim==100 && x2!=-2){
 							printf("Este colaborador ja alcancou o limite maximo de atividades cadastradas em seu nome. Tente novamente.\n");
+							continue;
+						}
                     	if(x2!=-1)break;
 					}
 					if(x2==-2)break;
 
+					//Confirmacao
                     printf("O colaborador %s passara a ser responsavel pela tarefa selecionada.\n", pessoa[x2].nome);
                     if(encerrar())break;
 
+					//Acao
                     pessoa[x2].tarefa[pessoa[x2].lim] = pessoa[x].tarefa[t]; reorganizacao_por_status(x2);
                     for(i=t; i<pessoa[x].lim-1; i++)pessoa[x].tarefa[i] = pessoa[x].tarefa[i+1];
-
                     pessoa[x].lim--; pessoa[x2].lim++;
                     if(pessoa[x].tarefa[t].status==3){
                         pessoa[x].concluidas--;
                         pessoa[x2].concluidas++;
                     }
-                    
                     printf("Troca bem-sucedida.\n");
-
                 }
                 else if(opcao==4){//excluir
+					//Confirmacao
                     printf("A acao de apagar atividade nao pode ser desfeita.\n");
                     if(encerrar())break;
 
+					//Acao
                     for(i=t; i<pessoa[x].lim-1; i++)pessoa[x].tarefa[i]=pessoa[x].tarefa[i+1];
                     pessoa[x].lim--;
                     printf("Tarefa apagada com sucesso.\n");
                 }
-                
                 printf("\n");
+				
                 if(encerrar())break;
             }while(1);
         }
-        else if(escolha==11){
+        else if(escolha==11){//Editar colaborador
             printf("\n+-------------------------------------------------------+\n");
             printf("|                    EDITAR COLABORADOR                   |\n");
             printf("+-------------------------------------------------------+\n");
@@ -731,27 +761,33 @@ int main(){
             do{
                 int x, i;
 
+				//Leitura do colaborador
                 printf("Insira o codigo do colaborador: "); getchar();
                 while((x=procurar_colaborador())==-1);
                 if(x==-2)break;
                 printf("\nUsuario selecionado: %s\n", pessoa[x].nome);
 
+				//Listagem de acoes
                 printf("\nEscolha uma acao para prosseguir:\n");
                 printf("1. Mudar nome\n");
                 printf("2. Excluir colaborador\n> ");
                 int opcao = ler_int(0, 3);
                 if(!opcao)break;
 
-                if(opcao==1){
+                if(opcao==1){//Mudar nome
                     char novo[100];
                     printf("\nNovo nome: "); ler_string(novo, 100);
+
+					//Confirmacao
                     printf("A seguinte mudanca sera feita:\n");
                     printf("\n%s -> %s\n", pessoa[x].nome, novo);
                     if(encerrar())break;
 
                     printf("Mudanca bem-sucedida.\n");
                 }
-                else if(opcao==2){
+                else if(opcao==2){//Excluir
+
+					//Confirmacao
                     printf("Tem certeza que deseja excluir o usuario %s (%s)? ",pessoa[x].nome, pessoa[x].codigo);
                     printf("Todas as seguintes tarefas serao perdidas:\n");
                     exibir_tarefas(x);
