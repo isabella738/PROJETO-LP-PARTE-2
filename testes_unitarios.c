@@ -1,7 +1,3 @@
-#include <stdio.h>
-#include <string.h>
-
-
 void reorganizacao_crescente(int v[]){
     //Proposta: reorganizar os termos de um vetor em forma crescente de dado valor
     int limite=0;
@@ -81,41 +77,77 @@ void teste_validacao_codigo(){
     }
 }
 
+void tirar_espacos(char string[]){
+    //tirar enter
+    int x = strlen(string);
+    if(string[x-1]=='\n' && x>0)string[x-1]='\0';
+
+    int meio=0;//deixa um espaço se estiver no meio
+
+    for(int i=0; string[i]!='\0'; i++){
+        int a=i, contador=0;
+        if(string[i]!=' ')meio=1;
+        while(string[a]==' ' && string[a]!='\0'){
+            contador++; a++;
+            if(string[a+1]=='\0')meio=0;
+        }
+        if(meio)contador--;
+        if(contador>0) {for(int j=i; string[j]!='\0'; j++)string[j]=string[j+contador]; i--;}
+    }
+}
+
 int main(){
+
 	//menu de testes
     printf("Teste 1: Reorganizacao crescente\n");
     printf("Teste 2: Encerrar\n");
     printf("Teste 3: Ranking\n");
-    printf("Teste 1: Reorganizao crescente\n");
+    printf("Teste 4: Validacao de codigo\n");
+	printf("Teste 5: Tirar espaços em excesso\n");
     printf("\n> ");
     int n; scanf("%d", &n);
 
     if(n==1){
-        int v[10];
-        printf("Numeros aleatorios de 1 a 3:\n");
-        for(int i=0; i<10; i++){
-            printf("%d: ", i+1); scanf("%d", &v[i]);
-        }
-        reorganizacao_crescente(v); printf("\n");
-        for(int i=0; i<10; i++)printf("%d. %d\n", i+1, v[i]);
+        do{
+            int v[10];
+            printf("Numeros aleatorios de 1 a 3:\n");
+            for(int i=0; i<10; i++){
+                printf("%d: ", i+1); scanf("%d", &v[i]);
+            }
+            reorganizacao_crescente(v); printf("\n");
+            for(int i=0; i<10; i++)printf("%d. %d\n", i+1, v[i]);
+        }while(1);
     }
     if(n==2){
-        int x = encerrar();
-        if(x)printf("Programa encerrado\n");
-        else printf("Continuar programa\n");
+        do{
+            int x = encerrar();
+            if(x)printf("Programa encerrado\n");
+            else printf("Continuar programa\n");
+        }while(1);
     }
     if(n==3){
-        int v[10];
-        printf("Numeros aleatorios (10):\n");
-        for(int i=0; i<10; i++){
-            printf("%d: ", i+1); scanf("%d", &v[i]);
-        }
-        printf("\n");
-        ranking(v);
+        do{
+            int v[10];
+            printf("Numeros aleatorios (10):\n");
+            for(int i=0; i<10; i++){
+                printf("%d: ", i+1); scanf("%d", &v[i]);
+            }
+            printf("\n");
+            ranking(v);
+        }while(1);
     }
-
-	if(n==4){
-        teste_validacao_codigo();
+    if(n==4){
+        do{
+            teste_validacao_codigo();
+        }while(1);
+    }
+    if(n==5){
+        do{
+            printf("frase com muitos espacos: ");
+            char teste[50]; fgets(teste, 50, stdin);
+            tirar_espacos(teste);
+            printf("'%s'\n", teste);
+        }while(1);
     }
 
     return 0;
