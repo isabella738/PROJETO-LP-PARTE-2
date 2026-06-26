@@ -5,17 +5,21 @@ Curso: Ciência da Computação
 Disciplina: Linguagem de Programação I  
 Discente(s): Gabriel Moura Rocha, Giselly Jahel Dias e Isabella Sousa Porto Ferreira  
 Docente: Luenne Nailam Souza Nascimento  
-Data (última atualização): 22-06-2026   
+Data (última atualização): 26-06-2026   
 
 ### Relatório
 
 ### 1. Descrição Geral do Sistema
+[Descricao...]
+
+FALHAS
+1. A limpeza de buffer não é feita corretamente. Muitas vezes a leitura é feita numa string maior e então copiada para uma menor, mas isso não resolve o problema.
 
 ### 2. Funcionalidades Implementadas
 
 ### 3. Organização do Código
 - As informações são guardadas em um vetor de structs.
-- O usuário pode escolher entre 12 funcionalidades, que estão organizadas em uma sequência de else-ifs
+- O usuário pode escolher entre 11 funcionalidades, que estão organizadas em uma sequência de else-ifs
 - As subrotinas estão organizadas em 4 seções principais:
   1. Funções de uso geral: funções auxiliares, maioria para fazer modificações ou verificações simples e mais repetitivas
   2. Funções de verificacao: funções de base, que verificam a validade de um dado específico para uma condição específica
@@ -40,7 +44,7 @@ Cada tarefa contém:
 3. int status (1-a fazer, 2-em andamento, 3- concluida).
   
 ### 5. Testes Unitários
-*Obs: o codigo fonte desses testes está no main sob o nome 'testes_unitarios'
+*Obs: o codigo fonte desses testes está no main sob o nome 'testes_unitarios', por curiosidade...
 
 Teste 1:
 
@@ -87,3 +91,4 @@ Resultado esperado: 'tirar-espaços-em-excesso'
 ### 6. Dificuldades Encontradas
 
 ### 7. Melhorias Futuras
+1. Limpeza de buffer e melhoria no sistema de checagem do estouro
