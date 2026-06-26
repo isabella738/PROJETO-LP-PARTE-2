@@ -8,7 +8,7 @@ Atualizacoes:
 - Add + comentarios
 - Strings com espacos em excesso agora tambem são tratadas
 - Em ler_string, o fgets lê uma string com o dobro do tamanho (200), numa tentativa (nao muito elaborada) de conter lixo no buffer, 
-	e evitar que espacos em excesso contem como caracteres antes da checagem de numero de caracteres
+	e evitar que espacos em excesso contem como caracteres antes da checagem do numero de caracteres
 	
 ANOTACOES
 - Consertar bugs
@@ -103,8 +103,8 @@ void reorganizacao_por_status(int x){//recebe a posicao do colaborador no array
     4. Se corresponder, mas 'limite' for igual a 'i', entÃ£o significa que a tarefa ja esta na posicao certa e somente eh
         necessario aumentar o valor 'limite'
     */
-    for(status=1; status<=3; status++){
-        for(i=0; i<pessoa[x].lim; i++){
+    for(status=1; status<=3; status++)
+        for(i=0; i<pessoa[x].lim; i++)
             if(pessoa[x].tarefa[i].status==status){
                 if(limite!=i){
                     itens t = pessoa[x].tarefa[i];
@@ -156,7 +156,7 @@ int string_vazia(char string[]){
 	return 1;
 }
 
-int codigo_existe(char codigo[]){//retorna a posicao do colaborador no array, ou -1 se nao existir
+int posicao_codigo(char codigo[]){//retorna a posicao do colaborador no array, ou -1 se nao existir
     int x = -1;
     int i = 0;
     for(i=0; i<p; i++){
@@ -215,13 +215,16 @@ int ler_int(int a, int b){ //substitui o scanf para inteiros; n>=a && n<=b; reto
 //
 //FUNCOES DE LEITURA DE DADOS ESPECIFICOS
 int lerString_codigo(char codigo[]){//retorna 2 para string vazia, 1 para erro
+
+    //lê um codigo num formato valido (5 digitos, so numeros), sem verificar se ja existe
+
     int s;
     while((s = ler_string(codigo, 5))==1);
     if(s==2)return 2;
 
 	//Codigo de 5 digitos
     if(strlen(codigo)<5){
-        printf("O cosdigo deve conter 5 digitos. Tente novamente.\n");
+        printf("O codigo deve conter 5 digitos. Tente novamente.\n");
         return 1;
     }
 	
@@ -237,7 +240,7 @@ int lerString_codigo(char codigo[]){//retorna 2 para string vazia, 1 para erro
     return 0;
 }
 
-int lerString_tarefa(char tarefa[]){
+int lerString_tarefa(char tarefa[]){//retorna 2 para string vazia, 1 para erro
     int s, i, j;
     while((s=ler_string(tarefa, 100))==1);
     if(s==2)return 2;
@@ -266,7 +269,7 @@ int procurar_colaborador(){//le o codigo e retorna a posicao do colaborador no a
     while((s=lerString_codigo(codigo))==1);
     if(s==2)return -2;
 
-    x = codigo_existe(codigo);
+    x = posicao_codigo(codigo);
     if(x==-1)printf("Pessoa nao encontrada. Tente novamente.\n");
     return x;
 }
@@ -346,7 +349,7 @@ int main(){
                 do{
                     printf("Codigo identificador: ");
                     while((s=lerString_codigo(codigo))==1); if(s==2)break;
-                    if(codigo_existe(codigo)!=-1)printf("Este codigo ja esta em uso. Tente novamente.\n");
+                    if(posicao_codigo(codigo)!=-1)printf("Este codigo ja esta em uso. Tente novamente.\n");
                     else break;
                 }while(1);
                 if(s==2)break;
@@ -398,7 +401,7 @@ int main(){
 
 			//Verificacao do estouro do limite de tarefas
 			if(pessoa[x].lim==100){
-				printf("Este colaborador ja alcancou o limite maximo de atividades cadastradas em seu nome.\nExclua alguma para adicionar outras.\n);
+				printf("Este colaborador ja alcancou o limite maximo de atividades cadastradas em seu nome.\nExclua alguma para adicionar outras.\n");
 				continue;
 			}
            
@@ -479,8 +482,8 @@ int main(){
 					printf("\nExibindo todas as tarefas com prioridade: "); listar_prioridade(k);
 					
                     int i, j, contador=0;
-                    for(i=0; i<p; i++){//cada pessoa
-                        for(j=0; j<pessoa[i].lim; j++){//cada tarefa
+                    for(i=0; i<p; i++)//cada pessoa
+                        for(j=0; j<pessoa[i].lim; j++)//cada tarefa
                             if(pessoa[i].tarefa[j].prioridade==k){
                                 contador++;
                                 printf("%d. %s (%s)\n", contador, pessoa[i].tarefa[j].nome, pessoa[i].nome);
@@ -496,8 +499,8 @@ int main(){
 					printf("\nExibindo todas as tarefas na etapa: "); listar_etapa(k);
 
                     int i, j, contador=0;
-                    for(i=0; i<p; i++){//cada pessoa
-                        for(j=0; j<pessoa[i].lim; j++){//cada tarefa
+                    for(i=0; i<p; i++)//cada pessoa
+                        for(j=0; j<pessoa[i].lim; j++)//cada tarefa
                             if(pessoa[i].tarefa[j].status==k){
                                 contador++;
                                 printf("%d. %s (%s)\n", contador, pessoa[i].tarefa[j].nome, pessoa[i].nome);
@@ -738,7 +741,7 @@ int main(){
 							continue;
 						}
                     	if(x2!=-1)break;
-					}
+					}while(1);
 					if(x2==-2)break;
 
 					//Confirmacao
