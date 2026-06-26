@@ -209,7 +209,7 @@ int ler_int(int a, int b){ //substitui o scanf para inteiros; n>=a && n<=b; reto
         char n[100];
         int i, num=0, erro=0, s;
 
-        while((s=ler_string(n))==1);
+        while((s=ler_string(n, 100))==1);
 		
         if(s==2){printf("Escolha um numero valido.\n"); continue;}
 
