@@ -7,7 +7,7 @@ Discente(s): Gabriel Moura Rocha, Giselly Jahel Dias e Isabella Sousa Porto Ferr
 Docente: Luenne Nailam Souza Nascimento  
 Data (última atualização): 26-06-2026   
 
-*Obs: disponibilizamos o codigo fonte dos testes unitarios no main do repositorio, só pra caso quiser dar uma olhada
+*Obs: disponibilizamos o codigo fonte dos testes unitarios no main do repositorio, se por acaso quiser dar uma olhada
 
 ### Relatório
 
