@@ -17,13 +17,13 @@ Data (última atualização): 26-06-2026
 - Os dados são salvos ao encerrar o programa e carregados automaticamente ao iniciá-lo.
 - Não há diferenciação entre maiúsculas e minúsculas.
 - O sistema conta com um amplo sistema de verificação de entradas, exibindo mensagens de erro nos seguintes casos:
-  1. Strings vazias ou maiores que o máximo de caracteres permitido
-  2. Entrada de caracter(es) quando o programa requeria um inteiro
-  3. Entrada de numeros fora do intervalo requerido no contexto (seleção de colaborador, de tarefas, opções de menu, etc...)
-  4. Codigo de colaborador duplicado, inexistente ou em formato inválido, 
-  5. Tarefas com nome duplicado ou sem descrição
-  6. Buscas sem resultado
-  7. Tentativa de movimentação quando a tarefa já foi concluída
+  1. Strings vazias ou maiores que o máximo de caracteres permitido.
+  2. Entrada de caracter(es) quando o programa requeria um inteiro.
+  3. Entrada de numeros fora do intervalo requerido no contexto (seleção de colaborador, de tarefas, opções de menu, etc...).
+  4. Codigo de colaborador duplicado, inexistente ou em formato inválido.
+  5. Tarefas com nome duplicado ou sem descrição.
+  6. Buscas sem resultado.
+  7. Tentativa de movimentação quando a tarefa já foi concluída.
 
 FALHAS
 1. A limpeza de buffer não é feita corretamente. No codigo, a leitura é feita numa string maior e então copiada para uma menor, mas isso não resolve o problema.
@@ -34,30 +34,30 @@ FALHAS
   1. Exibição de Menu
   2. Cadastro de colaborador
      - Solicita nome e código do novo colaborador
-  3. Listagem de colaboradores
-     3.1. Exibição da quantidade e conteudo das atividades individuais, ordenadas por etapa
+  3. Listagem de colaboradores\
+     3.1. Exibição da quantidade e conteudo das atividades individuais, ordenadas por etapa\
           - Também é possível acessar a descrição destas atividades
   4. Cadastro de atividade
      - Solicita o código do colaborador responsável, título, prioridade e descrição (podendo ser vazia ou não) da nova tarefa
-  5. Listagem de atividades na integra
-     5.1. (Bônus) Exibição de todas as atividades ordenadas ou filtradas por prioridade ou etapa
+  5. Listagem de atividades na integra\
+     5.1. (Bônus) Exibição de todas as atividades ordenadas ou filtradas por prioridade ou etapa\
           - Também é possível acessar a descrição destas atividades
   6. Movimentar atividade
      - São exibidas na tela somente as atividades não concluidas, e a movimentação acontece etapa por etapa.
   7. Busca
       - Exibe as informações de todas as tarefas que correspondam à busca ou que contenham a mesma cadeia de caracteres
   8. Exibição de Estatísticas Gerais
-      - Total de colaboradores e atividades cadastradas, média de atividades por colaborador, taxa de atividades concluidas no total, total de atividades em cada etapa e prioridade.
+      - Total de colaboradores e atividades cadastradas, média de atividades por colaborador, taxa de atividades concluidas no total, total de atividades em cada etapa e prioridade
   9. Ranking
       - 5 primeiros colocados
-  10. Edição de Atividade
-      10.1. (Bônus) Editar Nome
-      10.2. (Extra) Mudar Prioridade
-      10.3. (Extra) Trocar Colaborador Responsavel
-      10.4. (Bônus) Excluir Atividade
+  10. Edição de Atividade\
+      10.1. (Bônus) Editar Nome\
+      10.2. (Extra) Mudar Prioridade\
+      10.3. (Extra) Trocar Colaborador Responsavel\
+      10.4. (Bônus) Excluir Atividade\
       10.5. (Extra) Editar Descrição
-  11. Edição de Colaborador
-      11.1. (Extra) Mudar Nome
+  12. Edição de Colaborador\
+      11.1. (Extra) Mudar Nome\
       11.2. (Extra) Excluir Colaborador
       
 Observação: todas as funcionalidade bônus foram implementadas. 5 extras foram criadas.
