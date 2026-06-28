@@ -105,4 +105,3 @@ Este teste simula a função 'tirar_espacos' no codigo principal
 
 ### 7. Melhorias Futuras
 1. Limpeza de buffer e melhoria no sistema de checagem do estouro
-2. Ampliar ações do usuário: não é possível acessar diretamente a descrição de uma atividade através de 'Listar Atividades' (5), pois a listagem na tela não é linear em relação aos vetores, o que torna este trabalho mais complexo.
