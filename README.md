@@ -16,7 +16,7 @@ Data (última atualização): 26-06-2026
 - O sistema conta com um mecanismo de cancelar ação: caso o utilizador selecione uma ação sem querer, ou desista de uma no meio do processo, ele pode inserir um campo vazio (se o programa requerir string) ou inserir 0 (se o programa requerir um numero inteiro) para cancelar e voltar ao menu.
 - Os dados são salvos ao encerrar o programa e carregados automaticamente ao iniciá-lo.
 - Não há diferenciação entre maiúsculas e minúsculas.
-- O sistema conta com um amplo sistema de verificação de entradas, exibindo mensagens de erro nos seguintes casos:
+- O sistema conta com um amplo sistema de verificação de entradas, detectando os seguintes casos:
   1. Strings vazias ou maiores que o máximo de caracteres permitido.
   2. Entrada de caracter(es) quando o programa requeria um inteiro.
   3. Entrada de numeros fora do intervalo requerido no contexto (seleção de colaborador, de tarefas, opções de menu, etc...).
@@ -63,12 +63,12 @@ FALHAS
 Observação: todas as funcionalidade bônus foram implementadas. 5 extras foram criadas.
 
 ### 3. Organização do Código
-- As informações são guardadas em um vetor de structs.
+- As informações dos colaboradores são guardadas em um vetor de structs.
 - O usuário pode escolher entre 11 funcionalidades, que estão organizadas em uma sequência de else-ifs
 - As subrotinas estão organizadas em 4 seções principais:
   1. Funções de uso geral: funções auxiliares, maioria para fazer modificações ou verificações simples e mais repetitivas
   2. Funções de verificacao: funções de base, que verificam a validade de um dado específico para uma condição específica
-  3. Funções de leitura de dados não-específicos: funções de base, que leem uma entrada e, ao mesmo tempo, verificacam sua validade. Esta seção surge pois todas as entradas de determinado tipo precisam ser verificadas para algumas condições em comum, independente do contexto, por exemplo: todos os inteiros precisam ser maiores que 0, nenhuma string pode ser vazia. Outras verificações mais específicas são feitas a parte.
+  3. Funções de leitura de dados não-específicos: funções de base, que leem uma entrada e, ao mesmo tempo, verificacam sua validade. Esta seção surge pois todas as entradas de determinado tipo precisam ser verificadas para algumas condições em comum, independente do contexto, por exemplo: todos os inteiros precisam ser maiores que 0, nenhuma string pode ser vazia. Outras verificações mais específicas são feitas a parte. Com isso, essas funções substituem o fgets (ler_string) e o scanf(%d) (ler_int) ao longo do código.
   4. Funções de leitura de dados específicos: fundamentadas em todas as funções anteriores. Reúne todas as verificações necessárias para determinado dado em uma só subrotina, para evitar ao máximo repetições e preocupação com validações, e otimizar a leitura no main.
 - As funções de leitura de strings retornam 3 valores: 0 (entrada válidada), 1 (erro diverso), 2 (erro específico: string vazia). Essa mecânica surgiu da necessidade de "informar" ao main a hora de interromper um loop, conforme descrito na descrição geral do sistema. Funções análogas a estas, mas que retornam um índice, retornam -1 para erro diverso e -2 para string vazia.
 
