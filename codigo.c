@@ -527,7 +527,7 @@ int main() {
             printf("+-------------------------------------------------------+\n");
 
             int i, continuar=0;
-            for(i=0; i<p; i++)if(pessoa[i].lim>0){continuar=1; break}
+            for(i=0; i<p; i++)if(pessoa[i].lim>0){continuar=1; break;}
 
             if(!continuar)printf("Nao existem tarefas cadastradas.\n");
             else do {
