@@ -116,7 +116,7 @@ void exibir_menu() {
     printf("10. Editar atividade.\n");
     printf("11. Editar informacoes de colaborador.\n");
     printf("0. Salvar e Sair.\n\n");
-    printf("Obs: digite 0 ou deixe o campo vazio para cancelar qualquer acao em andamento.\n");
+    printf("Obs: digite 0 ou deixe o campo vazio para cancelar uma acao a qualquer momento.\n");
 }
 
 void reorganizacao_por_status(int x) {
@@ -153,20 +153,33 @@ void listar_etapa(int x) {
     }
 }
 
-void exibir_descricao(int x, int y) {
+void exibir_descricao(int x, int y) {// pessoa(x), tarefa(y)
     
     if(string_vazia(pessoa[x].tarefa[y].descricao)) {
-        printf("> Esta tarefa nao possui descricao.\n");
+        printf("- Esta tarefa nao possui descricao.\n");
     } else {
-        printf("> %s\n", pessoa[x].tarefa[y].descricao);
+        printf("- %s\n", pessoa[x].tarefa[y].descricao);
     }
+}
+
+int tarefa_existente(char tarefa[], int x){//verifica se a tarefa existe para o usuario x
+    int i;
+    char busca[100];
+    strcpy(busca, tarefa);
+    minusculas(busca);
+    for(i=0; i<pessoa[x].lim; i++){
+        char copia[100];
+        strcpy(copia, pessoa[x].tarefa[i].nome);
+        minusculas(copia);
+        if(strcmp(busca, copia)==0) return 1;
+    }
+    return 0;
 }
 
 //
 //FUNCOES DE LEITURA DE DADOS NAO-ESPECIFICOS
-
 int ler_string(char string[], int tam) { //substitui o fgets; retorna 1 para erro, 2 p/ string vazia
-    //le string, remove o enter, verifica o tamanho e se eh vazio
+    //le string, remove o enter, tira espaços extras, verifica o tamanho e se eh vazio
     
     /*Exemplo de uso 1:
         while(ler_string(frase, 10));
@@ -247,19 +260,6 @@ int ler_int(int a, int b) { //substitui o scanf para inteiros; n>=a && n<=b; ret
     } while(1);
 }
 
-int tarefa_existente(char tarefa[], int x){//verifica se a tarefa existe para o usuario x
-    int i;
-    char busca[100];
-    strcpy(busca, tarefa);
-    minusculas(busca);
-    for(i=0; i<pessoa[x].lim; i++){
-        char copia[100];
-        strcpy(copia, pessoa[x].tarefa[i].nome);
-        minusculas(copia);
-        if(strcmp(busca, copia)==0) return 1;
-    }
-    return 0;
-}
 
 //
 //FUNCOES DE LEITURA DE DADOS ESPECIFICOS
@@ -356,19 +356,20 @@ int procurar_colaborador() { //le o codigo e retorna a posicao do colaborador no
 
 //
 //SALVAR E CARREGAR DADOS
-void carregar_dados(colaborador *c) {
-    FILE *arquivo = fopen("dados_lp.bin", "rb");
+int carregar_dados(colaborador *c) {
+    FILE *arquivo = fopen("dados.bin", "rb");
     if(arquivo == NULL) {
-        printf("Nenhum arquivo de dados encontrado. Iniciando com dados vazios.\n");
-        return;
+        printf("Nenhum arquivo de dados encontrado.\n");
+        return 0;
     }
     fread(&p, sizeof(int), 1, arquivo);
     fread(c, sizeof(colaborador), p, arquivo);
     fclose(arquivo);
+    return 1;
 }
 
 void salvar_dados(colaborador *c) {
-    FILE *arquivo = fopen("dados_lp.bin", "wb");
+    FILE *arquivo = fopen("dados.bin", "wb");
     if(arquivo == NULL) {
         printf("Ocorreu um erro ao salvar os arquivos.\n");
         return;
@@ -381,7 +382,7 @@ void salvar_dados(colaborador *c) {
 //
 //FUNCAO PRINCIPAL
 int main() { 
-    carregar_dados(pessoa);
+    if(!carregar_dados(pessoa)) return 1;
 
     printf("+---------------------------------------------------------+\n");
     printf("|  SISTEMA DE ORGANIZACAO E ACOMPANHAMENTO DE ATIVIDADES  |\n");
@@ -507,6 +508,7 @@ int main() {
                 printf("1. Alta\n");
                 printf("2. Media\n");
                 printf("3. Baixa\n");
+                printf("0. Cancelar\n");
                 printf("> ");
                 int prioridade = ler_int(0, 3);
                 if(!prioridade) break;
@@ -539,7 +541,8 @@ int main() {
                 printf("Escolha uma opcao de exibicao:\n");
                 printf("1. Exibir todas as atividades\n");
                 printf("2. Filtrar por prioridade\n");
-                printf("3. Filtrar por etapa\n\n> ");
+                printf("3. Filtrar por etapa\n");
+                printf("0. Sair\n\n> ");
                 int opcao = ler_int(0, 3);
                 
                 int user[p*100], item[p*100], tam = 0;
@@ -870,8 +873,8 @@ int main() {
                 do{
                     //Tarefa Selecionada
                     printf("\n----------");
-                    printf("\nA seguinte tarefa foi selecionada:\n");
-                    printf("\n%s (%s)\n", pessoa[x].tarefa[t].nome, pessoa[x].nome);
+                    printf("\nA seguinte tarefa foi selecionada:\n\n");
+                    printf("\n--> %s (%s)\n", pessoa[x].tarefa[t].nome, pessoa[x].nome);
                     printf("Etapa atual: ");
                     listar_etapa(pessoa[x].tarefa[t].status);
                     printf("Prioridade: ");
@@ -886,6 +889,7 @@ int main() {
                     printf("3. Trocar Colaborador Responsavel\n");
                     printf("4. Excluir Atividade\n");
                     printf("5. Editar Descricao\n");
+                    printf("0. Cancelar\n");
                     printf("> ");
                     opcao = ler_int(0, 5); printf("\n");
 
@@ -988,8 +992,6 @@ int main() {
                         printf("\nMudanca bem-sucedida.\n");
                     }
                     
-                    printf("\nVoce pode realizar mais modificacoes para esta tarefa.");
-                    if(encerrar())break;
                 }while(1);
 
             } while(1);
@@ -1012,7 +1014,8 @@ int main() {
                 //Listagem de acoes
                 printf("\nEscolha uma acao para prosseguir:\n");
                 printf("1. Mudar nome\n");
-                printf("2. Excluir colaborador\n> ");
+                printf("2. Excluir colaborador\n");
+                printf("0. Cancelar\n> ");
                 int opcao = ler_int(0, 3);
                 if(!opcao) break;
 
@@ -1035,7 +1038,9 @@ int main() {
                     //Confirmacao
                     printf("Tem certeza que deseja excluir o usuario %s (%s)? ", pessoa[x].nome, pessoa[x].codigo);
                     printf("Todas as seguintes tarefas serao perdidas:\n\n");
-                    for(i=0; i<pessoa[x].lim; i++){
+                    
+                    if(pessoa[x].lim==0)printf("Este usuario nao tinha tarefas cadastradas.\n");
+                    else for(i=0; i<pessoa[x].lim; i++){
                         printf("%d. %s - Etapa: ", i+1, pessoa[x].tarefa[i].nome);
                         listar_etapa(pessoa[x].tarefa[i].status);
                     }
