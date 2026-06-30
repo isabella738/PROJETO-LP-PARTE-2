@@ -369,7 +369,7 @@ void salvar_dados(colaborador *c) {
 //
 //FUNCAO PRINCIPAL
 int main() { 
-    //if(!carregar_dados(pessoa)) return 1;
+    if(!carregar_dados(pessoa)) return 1;
 
     printf("+---------------------------------------------------------+\n");
     printf("|  SISTEMA DE ORGANIZACAO E ACOMPANHAMENTO DE ATIVIDADES  |\n");
