@@ -178,23 +178,13 @@ int tarefa_existente(char tarefa[], int x){//verifica se a tarefa existe para o 
 
 //
 //FUNCOES DE LEITURA DE DADOS NAO-ESPECIFICOS
-int ler_string(char string[], int tam) { //substitui o fgets; retorna 1 para erro, 2 p/ string vazia
+int ler_string(char string[], int tam) { //substitui o fgets; 
     //le string, remove o enter, tira espaços extras, verifica o tamanho e se eh vazio
     
     /*Exemplo de uso 1:
         while(ler_string(frase, 10));
 
         O while se repete até ler_string se tornar "falsa" (0) 
-    */
-
-    /*Exemplo de uso 2:
-        int erro;
-        while((erro = ler_string(frase, 10)) == 1);
-        if(erro == 2)break;
-
-        O valor de ler_string é armazenado numa variavel temporaria. 
-        O while verifica o valor dela, e mantem o loop enquanto seu valor for 1
-        Se for 2, o loop externo é interrompido e a acao em andamento eh cancelada
     */
 
     char teste[tam+100];
@@ -209,8 +199,6 @@ int ler_string(char string[], int tam) { //substitui o fgets; retorna 1 para err
 
     strcpy(string, teste);
 
-    if(string_vazia(teste)) return 2;
-
     return 0;
 }
 
@@ -224,12 +212,12 @@ int ler_int(int a, int b) { //substitui o scanf para inteiros; n>=a && n<=b; ret
 
     do {
         char n[100];
-        int i, num = 0, erro = 0, s;
+        int i, num = 0, erro = 0;
 
-        while((s = ler_string(n, 100)) == 1);
+        while(ler_string(n, 100));
         
         //Campo vazio
-        if(s == 2) {
+        if(string_vazia(n)) {
             printf("\nEscolha um numero valido.\n");
             continue;
         }
@@ -266,9 +254,8 @@ int ler_int(int a, int b) { //substitui o scanf para inteiros; n>=a && n<=b; ret
 int lerString_codigo(char codigo[]) { //retorna 2 para string vazia, 1 para erro
     //lê um codigo num formato valido (5 digitos, so numeros), sem verificar se ja existe
 
-    int s;
-    while((s = ler_string(codigo, 5)) == 1);
-    if(s == 2) return 2;
+    while(ler_string(codigo, 5));
+    if(string_vazia(codigo))return 0;
 
     //Codigo de 5 digitos
     if(strlen(codigo) < 5) {
@@ -289,9 +276,9 @@ int lerString_codigo(char codigo[]) { //retorna 2 para string vazia, 1 para erro
 }
 
 int lerString_tarefa(char tarefa[], int colaborador) { //retorna 2 para string vazia, 1 para erro
-    int s, i, j;
-    while((s = ler_string(tarefa, 100)) == 1);
-    if(s == 2) return 2;
+    int i, j;
+    while(ler_string(tarefa, 100));
+    if(string_vazia(tarefa)) return 0;
 
     //Verifica se ja nao existe uma tarefa com este nome
     char copia[100]; 
@@ -343,11 +330,11 @@ void exibir_tarefas(int k) { //recebe a posicao da pessoa no vetor e imprime tod
 }
 
 int procurar_colaborador() { //le o codigo e retorna a posicao do colaborador no array; -1: pessoa nao encontrada; -2:string vazia
-    int x = -1, s;
+    int x = -1;
     char codigo[6];
 
-    while((s = lerString_codigo(codigo)) == 1);
-    if(s == 2) return -2;
+    while(lerString_codigo(codigo));
+    if(string_vazia(codigo)) return -2;
 
     x = posicao_codigo(codigo);
     if(x == -1) {printf("\nPessoa nao encontrada. Tente novamente.\n"); return -1;}
@@ -382,7 +369,7 @@ void salvar_dados(colaborador *c) {
 //
 //FUNCAO PRINCIPAL
 int main() { 
-    if(!carregar_dados(pessoa)) return 1;
+    //if(!carregar_dados(pessoa)) return 1;
 
     printf("+---------------------------------------------------------+\n");
     printf("|  SISTEMA DE ORGANIZACAO E ACOMPANHAMENTO DE ATIVIDADES  |\n");
@@ -421,24 +408,24 @@ int main() {
             do {
                 printf("\n////");
                 char nome[100], codigo[6];
-                int s;
 
                 //Ler nome
                 printf("\n-> Nome do colaborador: ");
-                while((s = ler_string(nome, 100)) == 1);
-                if(s == 2) break;
+                while(ler_string(nome, 100));
+                if(string_vazia(nome))break;
 
                 //Ler Codigo
                 printf("\n-> Codigo identificador: ");
+                int vazio=0;
                 do {
-                    while((s = lerString_codigo(codigo)) == 1);
-                    if(s == 2) break;
+                    while(lerString_codigo(codigo));
+                    if(string_vazia(codigo)){vazio = 1; break;}
 
                     if(posicao_codigo(codigo) != -1) {
                         printf("\nEste codigo ja esta em uso. Tente novamente.\n");
                     } else break;
                 } while(1);
-                if(s == 2) break;
+                if(vazio)break;
 
                 //Criacao do colaborador e inicializacao de variaveis
                 strcpy(pessoa[p].codigo, codigo);
@@ -448,6 +435,9 @@ int main() {
                 p++;
                 printf("O perfil de %s (%s) foi criado com sucesso.\n", nome, codigo);
                 
+                if(p < 100) printf("\nVoce pode adicionar um novo colaborador.");
+                else break;
+
                 if(encerrar()) break;
             } while(1);
         }
@@ -466,7 +456,7 @@ int main() {
                            pessoa[j].lim, pessoa[j].lim - pessoa[j].concluidas);
                 }
 
-                //Exibir tarefas do colaborador
+                //Escolher e exibir tarefas do colaborador
                 printf("\n-> Insira um numero para ver mais detalhes, ou 0 para sair.\n> ");
                 int k = ler_int(0, p);
                 if(k == 0) break;
@@ -483,7 +473,7 @@ int main() {
             do {  
                 char nome_tarefa[100];
                 char desc[500]; desc[0]='\0';
-                int x, s;
+                int x;
                 printf("\n////");
 
                 //Identificar colaborador
@@ -500,8 +490,8 @@ int main() {
            
                 //Nome da tarefa
                 printf("\n-> Nova Tarefa: ");
-                while((s = lerString_tarefa(nome_tarefa, x)) == 1);
-                if(s == 2) break;
+                while(lerString_tarefa(nome_tarefa, x));
+                if(string_vazia(nome_tarefa))break;
 
                 //Prioridade da tarefa
                 printf("\nPrioridade da tarefa:\n");
@@ -515,7 +505,7 @@ int main() {
 
                 //Descricao
                 printf("\n-> Adicione uma descricao, ou deixe em branco para pular esta etapa.\n> ");
-                while((s = ler_string(desc, 500)) == 1);
+                while(ler_string(desc, 500));
 
                 //Adicao da tarefa e inicializacao de variaveis
                 int t = pessoa[x].lim;
@@ -536,7 +526,11 @@ int main() {
             printf("|                  LISTAR ATIVIDADE(S)                  |\n");
             printf("+-------------------------------------------------------+\n");
 
-            do {
+            int i, continuar=0;
+            for(i=0; i<p; i++)if(pessoa[i].lim>0){continuar=1; break}
+
+            if(!continuar)printf("Nao existem tarefas cadastradas.\n");
+            else do {
                 printf("\n////\n");
                 printf("Escolha uma opcao de exibicao:\n");
                 printf("1. Exibir todas as atividades\n");
@@ -647,15 +641,15 @@ int main() {
             printf("|              ALTERAR STATUS DE ATIVIDADE(S)           |\n");
             printf("+-------------------------------------------------------+\n");
 
-            do {
-                int i, j, k, status, continuar=0;
+            //Verifica se existem tarefas pendentes
+            int i, j, continuar=0;
+            for(i=0; i<p; i++)for(j=0; j<pessoa[i].lim; j++)if(pessoa[i].tarefa[j].status!=3){continuar=1; break;}
 
-                //Verifica se ainda existem tarefas pendentes
-                for(i=0; i<p; i++)for(j=0; j<pessoa[i].lim; j++)if(pessoa[i].tarefa[j].status!=3){continuar=1; break;}
-                if(!continuar){
-                    printf("Nao restam tarefas pendentes.\n");
-                    break;
-                }
+            if(!continuar){
+                printf("Nao restam tarefas pendentes.\n");
+            }
+            else do {
+                int k, status; 
 
                 printf("\n////\nTarefas pendentes:\n");
                 int tam=0, user[p*100], item[p*100];
@@ -704,14 +698,14 @@ int main() {
 
             do {
                 char busca[100];
-                int i, j, contador = 0, s;
+                int i, j, contador = 0;
                 printf("\n////");
 
                 //Leitura da string busca
                 printf("\nBusca: ");
-                while((s = ler_string(busca, 100)) == 1);
+                while(ler_string(busca, 100));
+                if(string_vazia(busca))break;
                 minusculas(busca);
-                if(s == 2) break;
                 printf("\n");
 
                 //Busca por todas as tarefas, de todas as pessoas
@@ -896,13 +890,12 @@ int main() {
                     //Acoes
                     if(!opcao) break;
                     else if(opcao == 1) { //editar nome
-                        int s;
                         char novo[100];
 
                         //Leitura do novo nome
                         printf("-> Novo nome: ");
-                        while((s = lerString_tarefa(novo, x)) == 1);
-                        if(s == 2) break;
+                        while(lerString_tarefa(novo, x));
+                        if(string_vazia(novo))break;
 
                         //Confirmacao
                         printf("\nA seguinte modificacao de nome sera feita:\n");
@@ -978,12 +971,11 @@ int main() {
                     }
                     else if(opcao == 5) { //editar descricao
                         char novo[500];
-                        int s;
 
                         printf("-> Insira a nova descricao.\n> ");
-                        while((s = ler_string(novo, 500)) == 1);
+                        while(ler_string(novo, 500));
 
-                        if(s == 2) {
+                        if(string_vazia(novo)) {
                             printf("\nAviso: A descricao desta tarefa sera apagada.\n");
                             if(encerrar()) break;
                         }
@@ -1020,11 +1012,11 @@ int main() {
                 if(!opcao) break;
 
                 if(opcao == 1) { //Mudar nome
-                    char novo[100]; int s;
+                    char novo[100];
 
                     printf("\nNovo nome: ");
-                    while((s=ler_string(novo, 100))==1);
-                    if(s==2)break;
+                    while(ler_string(novo, 100));
+                    if(string_vazia(novo))break;
 
                     //Confirmacao
                     printf("A seguinte mudanca sera feita:\n");
