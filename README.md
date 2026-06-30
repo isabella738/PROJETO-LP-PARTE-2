@@ -88,7 +88,7 @@ Cada tarefa contém:
 2. int prioridade (1-alta, 2-media, 3- baixa).
 3. int status (1-a fazer, 2-em andamento, 3- concluida).
 
-Os dados são salvos e carregados de um arquivo binário denominado "dados_lp.bin"
+Os dados são salvos e carregados de um arquivo binário denominado "dados.bin"
 
 ### 5. Testes Unitários
 
