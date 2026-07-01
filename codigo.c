@@ -21,7 +21,7 @@ colaborador pessoa[100];
 int p = 0; //Contador de colaboradores
 
 //
-//FUNCOES DE VERIFICACAO
+//FUNCOES DE USO GERAL
 int string_vazia(char string[]) { //1: é vazia
     int i;
     if(string[0]=='\0')return 1;
@@ -44,9 +44,15 @@ int posicao_codigo(char codigo[]) { //retorna a posicao do colaborador no array,
     return -1;
 }
 
-//
-//FUNCOES DE USO GERAL
 int encerrar() { //return 1=parar processo atual; return 0=continuar
+
+    /*Exemplo de uso
+        if(encerrar()){
+            printf("Loop encerrado.");
+            break;
+        }
+    */
+
     printf("\nContinuar? (S/N): ");
     char c;
     scanf(" %c", &c);
@@ -119,19 +125,20 @@ void exibir_menu() {
     printf("Obs: digite 0 ou deixe o campo vazio para cancelar uma acao a qualquer momento.\n");
 }
 
-void reorganizacao_por_status(int x) {
-    if(x < 0 || x >= p) return;
-    
-    itens temp;
-    int i, j;
-    for(int status = 1; status <= 3; status++) {
+void reorganizacao_por_status(int x) {//recebe a posicao da pessoa no vetor    
+    int i, status, limite=0;
+
+    for(status = 1; status <= 2; status++) {
         for(i = 0; i < pessoa[x].lim; i++) {
             if(pessoa[x].tarefa[i].status == status) {
-                for(j = i; j > 0 && pessoa[x].tarefa[j-1].status > status; j--) {
-                    temp = pessoa[x].tarefa[j];
-                    pessoa[x].tarefa[j] = pessoa[x].tarefa[j-1];
-                    pessoa[x].tarefa[j-1] = temp;
+
+                if(limite != i){//troca
+                    itens t = pessoa[x].tarefa[i];
+                    pessoa[x].tarefa[i] = pessoa[x].tarefa[limite];
+                    pessoa[x].tarefa[limite] = t;
                 }
+                limite++;
+
             }
         }
     }
@@ -167,6 +174,7 @@ int tarefa_existente(char tarefa[], int x){//verifica se a tarefa existe para o 
     char busca[100];
     strcpy(busca, tarefa);
     minusculas(busca);
+
     for(i=0; i<pessoa[x].lim; i++){
         char copia[100];
         strcpy(copia, pessoa[x].tarefa[i].nome);
@@ -179,9 +187,9 @@ int tarefa_existente(char tarefa[], int x){//verifica se a tarefa existe para o 
 //
 //FUNCOES DE LEITURA DE DADOS NAO-ESPECIFICOS
 int ler_string(char string[], int tam) { //substitui o fgets; 
-    //le string, remove o enter, tira espaços extras, verifica o tamanho e se eh vazio
+    //le string, remove o enter, tira espaços extras e verifica o tamanho
     
-    /*Exemplo de uso 1:
+    /*Exemplo de uso:
         while(ler_string(frase, 10));
 
         O while se repete até ler_string se tornar "falsa" (0) 
@@ -189,6 +197,7 @@ int ler_string(char string[], int tam) { //substitui o fgets;
 
     char teste[tam+100];
     fgets(teste, tam+100, stdin);
+
     remover_enter(teste);
     tirar_espacos(teste);
 
@@ -277,6 +286,7 @@ int lerString_codigo(char codigo[]) { //retorna 2 para string vazia, 1 para erro
 
 int lerString_tarefa(char tarefa[], int colaborador) { //retorna 2 para string vazia, 1 para erro
     int i, j;
+    
     while(ler_string(tarefa, 100));
     if(string_vazia(tarefa)) return 0;
 
@@ -864,11 +874,12 @@ int main() {
                 if(!t) break;
                 t--;
 
-                do{
+                do{//Colaborador e tarefa selecionados: loop da edição de tarefa
+
                     //Tarefa Selecionada
                     printf("\n----------");
                     printf("\nA seguinte tarefa foi selecionada:\n\n");
-                    printf("\n--> %s (%s)\n", pessoa[x].tarefa[t].nome, pessoa[x].nome);
+                    printf("> %s (%s)\n", pessoa[x].tarefa[t].nome, pessoa[x].nome);
                     printf("Etapa atual: ");
                     listar_etapa(pessoa[x].tarefa[t].status);
                     printf("Prioridade: ");
@@ -895,12 +906,12 @@ int main() {
                         //Leitura do novo nome
                         printf("-> Novo nome: ");
                         while(lerString_tarefa(novo, x));
-                        if(string_vazia(novo))break;
+                        if(string_vazia(novo))continue;
 
                         //Confirmacao
                         printf("\nA seguinte modificacao de nome sera feita:\n");
                         printf("%s -> %s\n", pessoa[x].tarefa[t].nome, novo);
-                        if(encerrar()) break;
+                        if(encerrar()) continue;
 
                         //Acao
                         strcpy(pessoa[x].tarefa[t].nome, novo);
@@ -910,7 +921,7 @@ int main() {
                         //Leitura da nova prioridade
                         printf("-> Nova prioridade (1-3)\n> ");
                         int prioridade = ler_int(0, 3);
-                        if(!prioridade) break;
+                        if(!prioridade) continue;
 
                         //Acao
                         pessoa[x].tarefa[t].prioridade = prioridade;
@@ -934,11 +945,11 @@ int main() {
                             }
                             else break;
                         } while(1);
-                        if(x2 == -2) break;
+                        if(x2 == -2) continue;
 
                         //Confirmacao
                         printf("\nO colaborador %s passara a ser responsavel pela tarefa selecionada.\n", pessoa[x2].nome);
-                        if(encerrar()) break;
+                        if(encerrar()) continue;
 
                         //Acao
                         pessoa[x2].tarefa[pessoa[x2].lim] = pessoa[x].tarefa[t]; 
@@ -958,7 +969,7 @@ int main() {
                     else if(opcao == 4) { //excluir
                         //Confirmacao
                         printf("Aviso: A acao de apagar atividade nao pode ser desfeita.\n");
-                        if(encerrar()) break;
+                        if(encerrar()) continue;
 
                         //Acao
                         if(pessoa[x].tarefa[t].status==3)pessoa[x].concluidas--;
@@ -977,7 +988,7 @@ int main() {
 
                         if(string_vazia(novo)) {
                             printf("\nAviso: A descricao desta tarefa sera apagada.\n");
-                            if(encerrar()) break;
+                            if(encerrar()) continue;
                         }
                         
                         strcpy(pessoa[x].tarefa[t].descricao, novo);
